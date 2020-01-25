@@ -1,45 +1,121 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="stylesheet" href="../css/styles.css" />
-    <title>Harjoitus 1</title>
-  </head>
-  <body>
-    <nav class="main-navigation">
-      <h1>Linux-palvelimet</h1>
-      <p>Oskari Holopainen</p>
-      <a href="../../index.html">Takaisin</a>
-    </nav>
-    <h1>H 1</h1>
-    <h2>a) Livetikun luominen</h2>
-    <p>
-      Aloitin tekemään Xubuntu 18.04.03 amd64 Linuxista livetikkua lataamalla
-      levykuvaa ja työkalua tikun luomiseen osoitteista
-      <a href="https://unetbootin.github.io/" target="_blank"
-        >https://unetbootin.github.io/</a
-      >
-      ja
-      <a href="https://xubuntu.org/" target="_blank">https://xubuntu.org/</a>.
-      Kun levykuva on latautunut, käynnistän Unetbootin-työkalun. Vaihtoehtoina
-      on joko ladata levykuva tai kopioida jo valmiiksi ladatusta tiedostosta,
-      valitsen jälkimmäisen. Kun lataus on valmis, etsin levykuvan työkalussa,
-      valitsen ok ja ohjelma alkaa kirjoittaa tikulle.
-    </p>
-    <img src="../img/h1/a1.png" alt="unetbootin" />
-    <img src="../img/h1/a2.png" alt="unetbootin" />
-    <p>
-      Hetken päästä ohjelma ilmoittaa asennuksen sujuvan onnistuneesti, suljen
-      ohjelman ja siirryn testaamaan tikkua. Tämän koneen boot-menu aukeaa
-      painamalla F12-näppäintä käynnistyksen yhteydessä.
-    </p>
-    <p>
-      Käynnistin koneen uudelleen, painoin F12 päästäkseni boot menuun ja
-      käynnistin linuxin tikulta. Näyttö, hiiri, näppäimistö ja internet-yhteys
-      eli kaikki tarvittava näyttää toimivan. Näppäimistön ulkoasu oli vaihtunut
-      oletusarvoisesti varmaankin yhdysvaltojen malliin, mutta sen sai
-      näppärästi vaihdettua terminaalista komennolla setxkbmap fi.
-    </p>
-    <h2>b) Listataan koneen rauta</h2>
-  </body>
+
+<head>
+  <meta charset="utf-8" />
+  <link rel="stylesheet" href="../css/styles.css" />
+  <title>Harjoitus 1</title>
+  <script src="../js/main.js"></script>
+</head>
+
+<body>
+  <nav class="main-navigation">
+    <h1>Linux-palvelimet</h1>
+    <p>Oskari Holopainen</p>
+    <a href="../../index.html">Takaisin</a>
+  </nav>
+  <h1>H 1</h1>
+  <h2>a) Livetikun luominen</h2>
+  <p>
+    Aloitin tekemään Xubuntu 18.04.03 amd64 Linuxista livetikkua lataamalla
+    levykuvaa ja työkalua tikun luomiseen osoitteista
+    <a href="https://unetbootin.github.io/" target="_blank">https://unetbootin.github.io/</a>
+    ja
+    <a href="https://xubuntu.org/" target="_blank">https://xubuntu.org/</a>.
+    Kun levykuva on latautunut, käynnistän Unetbootin-työkalun. Vaihtoehtoina
+    on joko ladata levykuva tai kopioida jo valmiiksi ladatusta tiedostosta,
+    valitsen jälkimmäisen. Kun lataus on valmis, etsin levykuvan työkalussa,
+    valitsen ok ja ohjelma alkaa kirjoittaa tikulle.
+  </p>
+  <img src="../img/h1/a1.png" alt="unetbootin" />
+  <img src="../img/h1/a2.png" alt="unetbootin" />
+  <p>
+    Hetken päästä ohjelma ilmoittaa asennuksen sujuvan onnistuneesti, suljen
+    ohjelman ja siirryn testaamaan tikkua. Tämän koneen boot-menu aukeaa
+    painamalla F12-näppäintä käynnistyksen yhteydessä.
+  </p>
+  <p>
+    Käynnistin koneen uudelleen, painoin F12 päästäkseni boot menuun ja
+    käynnistin linuxin tikulta. Näyttö, hiiri, näppäimistö ja internet-yhteys
+    eli kaikki tarvittava näyttää toimivan. Näppäimistön ulkoasu oli vaihtunut
+    oletusarvoisesti varmaankin yhdysvaltojen malliin, mutta sen sai
+    näppärästi vaihdettua terminaalista komennolla setxkbmap fi.
+  </p>
+  <h2>b) Listataan koneen rauta</h2>
+  <p>Tämän tehtävän tein pöytäkoneellani.</p>
+  <img src="../img/h1/rauta.png" alt="hardware">
+
+
+  <h2>c) - e) Asenna kolme itselle uutta ohjelmaa ja kokeile kutakin sen pääasiallisessa käyttötarkoituksessa.</h2>
+  <p>Valitsin asentaa Kritan, Simplenoten ja LibreOffice Draw:in</p>
+  <h3>Krita, maalausohjelma</h3>
+  <p>Ajoin terminaalissa komennon: sudo apt-get update && sudo apt-get install krita.</p>
+  <p>Kokeilin erilaisia siveltimien ja värien yhdistelmiä ja vein kuvan jpg-muotoisena.</p>
+  <p>Lopputulos näyttää tältä:</p>
+  <img src="../img/h1/krita.jpg" alt="krita">
+
+  <h3>Simplenote, muistiinpano-ohjelma</h3>
+  <p>Asennustiedoston latasin <a href="https://github.com/Automattic/simplenote-electron/releases/tag/v1.12.0"
+      target="_blank">täältä</a></p>
+  <p> Kokeilin muistiinpanojen luomista, poistamista ja muutoksia käyttöliittymän ulkoasuun. Asetuksista
+    löydyi myös dark mode.
+  </p>
+  <img src="../img/h1/a3.png" alt="simplenote">
+  <img src="../img/h1/a4.png" alt="simplenote">
+  <img src="../img/h1/a5.png" alt="simplenote">
+
+  <h3>Libreoffice Draw, kaaviotyökalu</h3>
+  <p>Asensin ohjelman komennolla sudo apt-get install libreoffice-draw -y</p>
+  <p>Microsoftin vastaava suljetun lähdekoodin ohjelma on <a
+      href="https://products.office.com/fi-fi/visio/flowchart-software" target="_blank"><span
+        style="font-style: italic;">Microsoft visio</span></a></p>
+  <p>Kokeilin ohjelmaa tekemällä sillä LAMP-arkkitehtuuria kuvaavan kaavion käyttämällä teksti- nuoli- ja
+    kuviotyökaluja.</p>
+  <img src="../img/h1/a6.png" alt="libreofficedraw">
+  <h2>Lisenssit</h2>
+  <p><span style="font-style: italic;">Krita</span> käyttää GNU General Public License version 2:a, ns. vahvan
+    copyleftin lisenssiä Tiivistetysti tämä tarkoittaa sitä, että ohjelmaa saa muokata
+    ja jakaa, kunhan johdettu teos julkaistaan samalla lisenssillä kuin alkuperäinen teos. Siihen tulee sisällyttää
+    alkuperäinen ohjelma, toimittaa lähdekoodi jakelun mukana, sekä säilyttää
+    alkuperäiset tekijänoikeus- ja vastuuvapauslausekkeet. Ohjelmasta johdettuja teoksia ei saa alilisensoida tai
+    alkuperäistä tekijää tai lisenssin haltijaa ei voi pitää vastuussa käytön aiheuttamista vahingoista. Ohjelmaan
+    tehdyt muutokset täytyy olla selkeästi ilmaistu.</p>
+
+  <p><span style="font-style: italic;">Simplenote</span> on lisensoitu myös GPLv2:lla. Samat ehdot siis pätee kuin
+    aiemmassa.
+    Ohjelmaa saa muuttaa ja jakaa, mutta sen täytyy säilyä saman
+    lisenssin alla ns. copyleft-periaatteen mukaisesti vaatien vapauksien säilyvän kaikilla käyttäjillä ja
+    kaikissa johdetuissa teoksissa.
+  </p>
+  <p><span style="font-style: italic;">LibreOffice Draw on lisensoitu LGPLv3, GNU Lesser General Public License versio
+      3:lla</span>
+    LGPL eroaa GPL:stä siten, että ohjelmat voidaan liittää yhteen ohjelmien osien kanssa, joita ei ole GPL-
+    lisensoitu. Tämä mahdollistaa kaupallisten ohjelmistojen LGPL-lisensoitujen osien käytön ilman, että se
+
+    velvoittaa heitä julkaisemaan lähdekoodia.
+    Johtuen LibreOfficen juurista OpenOffice.org:ssa siinä käytetään LGPL:ää. Uudet muutokset on
+    lisensoitava kaksoislisenssillä LGPLv3 ja MPL.
+    LGPL:ää käytetään pääosin kirjastoissa. Se mahdollistaa kaupallisen käytön, muokkaamisen, jakelun,
+    takuiden asettamisen ja patentoinnin. LGPL:ää ei voi alilisensoida, eikä lisenssin omistajaa voida pitää
+    velvollisena vahingonkorvauksiin. Sen mukana täytyy ilmoittaa muutokset, sisällyttää alkuperäiset kopiot
+    ohjelmasta tai ohjeet niiden hankkimiseksi, sekä jakaa lähdekoodi, sisällyttää lisenssi ja alkuperäinen
+    tekijänoikeus sekä asennusohjeet.
+  </p>
+  <h2>f) Tiedostojen varmuuskopiointi ulkoiselle kovalevylle</h2>
+  <p>Olen suunnitellut asentavani linuxin kannettavani kovalevylle, siispä varmuuskopioin
+    järjestelmäkuvan siitä ulkoiselle kovalevylle, mikäli haluan käyttää windowsia kannettavassa joskus
+    myöhemmin.
+    Aloitin tietokoneen varmuuskopioinnin menemällä windowsin ohjauspaneeliin ja sieltä
+    varmuuskopiointiin. Varmuuskopiointi-ikkunassa valitsen haluavani luoda järjestelmäkuvan.</p>
+  <img src="../img/h1/1.PNG" alt="control panel">
+  <img src="../img/h1/2.PNG" alt="create system image">
+  <p>Valittuani mitkä levyt haluan sisällyttää kopioon ja minne haluan sen tallentaa, alkaa työkalu luomaan
+    järjestelmäkuvaa:</p>
+    <img src="../img/h1/3.PNG" alt="backupping">
+    <p>Varmuuskopio onnistui, suljin ohjelman, ejectasin ulkoisen kovalevyn ja otin johdon irti koneesta.</p>
+    <img src="../img/h1/4.PNG" alt="backup done">
+    <br>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Takaisin ylös</button> 
+</body>
+
 </html>

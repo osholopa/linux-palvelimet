@@ -12,3 +12,9 @@
 a {
   padding: 10px;
 }
+ img {max-width: 1000px;}
+
+ #myBtn {
+   display: block;
+   margin: auto;
+ }
