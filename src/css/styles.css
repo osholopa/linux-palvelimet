@@ -1,0 +1,14 @@
+
+.main-navigation {
+    text-align: center;
+}
+
+.excercises {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+a {
+  padding: 10px;
+}
