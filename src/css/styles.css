@@ -18,3 +18,8 @@ a {
    display: block;
    margin: auto;
  }
+
+ .sources {
+   display: flex;
+   flex-direction: column;
+ }
