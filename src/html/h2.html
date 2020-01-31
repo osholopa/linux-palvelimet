@@ -1,16 +1,149 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="../css/styles.css">
-    <title>Harjoitus 1</title>
-  </head>
-  <body>
-    <nav class="main-navigation">
-      <h1>Linux-palvelimet</h1>
-      <p>Oskari Holopainen</p>
-      <a href="../../index.html">Takaisin</a>
-    </nav>
-    <h1>Harjoitus 2</h1>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Harjoitus 2</title>
+</head>
+
+<body>
+  <nav class="main-navigation">
+    <h1>Linux-palvelimet</h1>
+    <p>Oskari Holopainen</p>
+    <a href="../../index.html">Takaisin</a>
+  </nav>
+  <h1>Harjoitus 2</h1>
+  <h4>30.1.2020 klo 17.56 Xubuntu 18.04.3 LTS Live Usb</h4>
+
+  <h2>a) Aiheuta lokiin kaksi eri tapahtumaa: yksi esimerkki onnistuneesta ja yksi esimerkki epäonnistuneesta tai
+    kielletystä toimenpiteestä. Analysoi rivit yksityiskohtaisesti.</h2>
+
+  <p>Aloitin autentikaatiolokitiedoston seurannan menemälllä kansioon /var/log ja antamalla komennon tail -f auth.log
+  </p>
+
+  <h4>Onnistunut lokitapahtuma</h4>
+
+  <p>Salasanan asetus tilanteessa, jossa sitä ei vielä ole asetettu. asetin salasanan komennolla passwd. Lokiin tulostui
+    seuraavat kaksi riviä (koneen kello on väärällä aikavyöhykkeellä): </p>
+
+  <img src="../img/h2/onnistunut.png" alt="successful" />
+
+  <p>Ensimmäinen osio kertoo ajankohdan, jolloin komento on suoritettu, isäntäkoneen nimen (xubuntu) sekä komennon.
+    pam_unix on vaikutti pienen googlaamisen jälkeen olevan järjestelmän salasanojen autentikaatiomoduuli, passwd
+    salasananvaihtokomento ja chauthtoken lyhenne sanoista change authentication token for a given user. Lopuksi rivillä
+    kerrotaan salasanan olevan vaihdettu. Seuraava rivi kertoo salasanan olevan vaihdettu työpöytäympäristön
+    avainnippuun</p>
+
+  <h4>Epäonnistunut lokitapahtuma</h4>
+  <p>Pitäen saman lokitiedoston auki, yritän vaihtaa salasanan väärällä salasanalla.
+    auth.logiin kirjautuu tieto epäonnistuneesta autentikoinnista. </p>
+
+  <img src="../img/h2/epaonnistunut.png" alt="unsuccessful" />
+
+  <p>Rivillä on aikaleima, isäntäkoneen nimi, komento, moduuli, joka aktivoitui (pam_unix) sekä virhe joka tapahtui
+    (authentication failure). Loppuosan kaikilla kentillä ei ole arvoja, mutta ne vaikuttavat olevan käyttäjän
+    yksilöiviä tunnisteita.</p>
+
+  <h2>b) 31.1.2020 Vapaaehtoinen kohta: Asenna SSH-demoni. Kokeile omalla ssh-palvelimellasi jotain
+    seuraavista:
+    ssh-copy-id, sshfs, scp tai git.</h2>
+
+    <p>Tämä osio on tehty omalla kannettavalla, jossa on Xubuntu 18.04.3 amd64</p>
+
+  <p>Ajattelin tehdä tämän ottamalla ssh-etäyhteyden Raspbian-käyttöjärjestelmällä toimivaan Raspberry Pi 3:n ja
+    asettamalla
+    julkisen avaimen avulla automaattisen kirjautumisen, jotta ei tarvitse syöttää salasanaa joka kerta.</p>
+
+  <p>Aloitin aktivoimalla ssh:n raspin terminaalissa antamalla komennot sudo systemctl enable ssh ja sudo systemctl
+    start ssh.
+    Lokiin tulostui ilmoitus ssh-palvelimen käynnistyksestä, ja kun listasin prosessit komennolla ps -A, näytti siltä
+    että
+    ssh-demoni (sshd) oli käynnissä.</p>
+   
+    <img src="../img/h2/ssh-server.jpg" alt="ssh server"/>
+    <img src="../img/h2/sshd.jpg" alt="ssh daemon"/>
+
+  <p>Otin raspin ip-osoitteen selville komennolla hostname -I.</p>
+
+  <p>Aloitin muodostamaan yhteyttä kannettavasta komennolla ssh pi@123.456.789.12</p>
+
+  <img src="../img/h2/ssh.png" alt="ssh"/>
+
+  <p>Hyväksyin herjat, annoin salasanan ja yhteys muodostui. Suljin toistaiseksi yhteyden.</p>
+
+  <img src="../img/h2/login.png" alt="ssh login"/>
+
+  <p>Julkisen avaimen kopioiminen ssh-palvelimelle</p>
+
+  <p>Olen aiemmin luonut koneelleni julkisen ssh-avaimen, sitä en käy nyt sen tarkemmin läpi, mutta se on olemassa.
+    Kopioin sen
+    verkon yli raspille komennolla ssh-copy-id pi@123.456.789.12. Tulee ilmoitus onnistuneesta avaimen lisäyksestä sekä
+    kehotus
+    tarkistaa, että vain haluamani avain on lisätty. Kirjauduin uudelleen raspille ja tarkistin asian menemällä
+    hakemistoon ~/.ssh
+    ja antamalla komennon less authorized_keys, oikealta näytti. Poistun takaisin omalle koneelleni komennolla exit.</p>
+
+  <p>Tiedostojen siirto scp:n avulla.<p>
+      <p>Kokeilin luoda testikansion ja sen sisälle testitiedoston, jonka siirsin komennolla
+        scp -r kansio/ pi@123.456.678.12:Desktop, ja Raspberry Pi:n työpöydälle ilmestyi sama kansio.</p>
+
+
+
+      <h2>c) Tee unelmien apt-get -komento: yksi komentorivi, joka asentaa suosikkiohjelmasi. </h2>
+
+      <p>Päätin asentaa koodieditorin sekä versionhallintatyökalun samalla komennolla:</p>
+
+      <p>sudo apt-get update && sudo apt install software-properties-common apt-transport-https wget && wget -q
+        https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add - && sudo add-apt-repository "deb
+        [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" && sudo apt update && sudo apt install
+        code -y
+        && sudo apt-get -y install git</p>
+
+
+      <h2>d) Asenna komentokehotteen paketinhallinnasta kolme itsellesi uutta komentorivillä toimivaa ohjelmaa. Kokeile
+        kutakin ohjelmaa sen pääasiallisessa käyttötarkoituksessa.
+
+        <h4>Node.Js</h4>
+        <p>Node on vapaa ja alustariippumaton javascript-suoritusympäristö, joka mahdollistaa javascipt-koodin ajamisen
+          selaimen ulkopuiolella. Aikomuksenani onkin suorittaa sillä erittäin alkeellista javascript-ohjelmaa
+          komentokehotteella. Asennan sen komennolla sudo apt-get install nodejs -y. kirjoitin pienen
+          javascript-tiedoston
+          komennolla echo “console.log(‘Hello, Xubuntu’)" > hello.js, ja suoritin sen komennolla node hello.js. </p>
+
+        <img src="../img/h2/node.png" alt="node.js" />
+
+
+        <h4>Node package manager</h4>
+        <p>Node package manager eli npm on paketinhallintaohjelma, jolla voi käsitellä Nodessa suoritettavia
+          javascript-ohjelmia. Asensin sen komennolla sudo apt install npm -y. Käytän npm:ää kohdassa 3.</p>
+
+        <h4>Wikit</h4>
+        <p>Tällä ohjelmalla voi etsiä wikipediasta tietoa komentokehotteen kautta. Käyttääkseni tätä, hyödynnän kahta
+          edellistä asentamaani ohjelmaa. Asensin sen npm:llä antamalla komennon sudo npm install wikit -g. </p>
+
+
+        <img src="../img/h2/npm.png" alt="npm" />
+
+        <p>Ohjelmaa käytetään komennolla wikit [hakusana]. Etsin tietoa Linuxista komennolla wikit linux:</p>
+
+        <img src="../img/h2/wikit.png" alt="wikit" />
+
+        <h2>Lähteet</h2>
+        <div class="sources">
+          <a target="_blank" href="https://www.loggly.com/ultimate-guide/linux-logging-basics/">https://www.loggly.com/ultimate-guide/linux-logging-basics/</a>
+          <a target="_blank" href="https://refspecs.linuxbase.org/LSB_3.0.0/LSB-PDA/LSB-PDA/baselib-pam-chauthtok.html">https://refspecs.linuxbase.org/LSB_3.0.0/LSB-PDA/LSB-PDA/baselib-pam-chauthtok.html</a>                          
+          <a target="_blank" href="http://terokarvinen.com/2020/aikataulu-linux-palvelimet-ict4tn021-3010-torstai-aamu-alkukevat-2020-5-op">http://terokarvinen.com/2020/aikataulu-linux-palvelimet-ict4tn021-3010-torstai-aamu-alkukevat-2020-5-op</a>
+          <a target="_blank" href="https://petrit.net/Linux-kurssi/komentorivi/tekstit/#tekstitiedoston-lukeminen-less-ja-more">https://petrit.net/Linux-kurssi/komentorivi/tekstit/#tekstitiedoston-lukeminen-less-ja-more</a>
+          <a target="_blank" href="https://linuxize.com/post/how-to-install-visual-studio-code-on-ubuntu-18-04/">https://linuxize.com/post/how-to-install-visual-studio-code-on-ubuntu-18-04/</a>
+          <a target="_blank" href="https://en.wikipedia.org/wiki/Linux">https://en.wikipedia.org/wiki/Linux</a>
+          <a target="_blank" href="https://www.tecmint.com/wikipedia-commandline-tool/">https://www.tecmint.com/wikipedia-commandline-tool/</a>
+          <a target="_blank" href="https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md">https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md</a>
+          <a target="_blank" href="https://www.raspberrypi.org/documentation/remote-access/ssh/unix.md">https://www.raspberrypi.org/documentation/remote-access/ssh/unix.md</a>
+        </div>
+
+
+
+</body>
+
 </html>
