@@ -1,4 +1,11 @@
 
+body {
+  background-color: #fafafa;
+  font-family: 'Ubuntu', sans-serif;
+  letter-spacing: 0.5px;
+  padding: 40px;
+}
+
 .main-navigation {
     text-align: center;
 }
@@ -22,4 +29,12 @@ a {
  .sources {
    display: flex;
    flex-direction: column;
+ }
+
+ h1 {text-decoration: underline;}
+
+ img {
+   padding:20px;
+   border: 1px solid black;
+
  }

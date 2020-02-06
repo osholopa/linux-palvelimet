@@ -1,10 +1,12 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
+<html lang="fi" dir="ltr">
 
 <head>
   <meta charset="utf-8">
   <link rel="stylesheet" href="../css/styles.css">
+  <link href="https://fonts.googleapis.com/css?family=Ubuntu&display=swap" rel="stylesheet">
   <title>Harjoitus 2</title>
+  <script src="../js/main.js"></script>
 </head>
 
 <body>
@@ -49,7 +51,7 @@
     seuraavista:
     ssh-copy-id, sshfs, scp tai git.</h2>
 
-    <p>Tämä osio on tehty omalla kannettavalla, jossa on Xubuntu 18.04.3 amd64</p>
+  <p>Tämä osio on tehty omalla kannettavalla, jossa on Xubuntu 18.04.3 amd64</p>
 
   <p>Ajattelin tehdä tämän ottamalla ssh-etäyhteyden Raspbian-käyttöjärjestelmällä toimivaan Raspberry Pi 3:n ja
     asettamalla
@@ -60,19 +62,19 @@
     Lokiin tulostui ilmoitus ssh-palvelimen käynnistyksestä, ja kun listasin prosessit komennolla ps -A, näytti siltä
     että
     ssh-demoni (sshd) oli käynnissä.</p>
-   
-    <img src="../img/h2/ssh-server.jpg" alt="ssh server"/>
-    <img src="../img/h2/sshd.jpg" alt="ssh daemon"/>
+
+  <img src="../img/h2/ssh-server.jpg" alt="ssh server" />
+  <img src="../img/h2/sshd.jpg" alt="ssh daemon" />
 
   <p>Otin raspin ip-osoitteen selville komennolla hostname -I.</p>
 
   <p>Aloitin muodostamaan yhteyttä kannettavasta komennolla ssh pi@123.456.789.12</p>
 
-  <img src="../img/h2/ssh.png" alt="ssh"/>
+  <img src="../img/h2/ssh.png" alt="ssh" />
 
   <p>Hyväksyin herjat, annoin salasanan ja yhteys muodostui. Suljin toistaiseksi yhteyden.</p>
 
-  <img src="../img/h2/login.png" alt="ssh login"/>
+  <img src="../img/h2/login.png" alt="ssh login" />
 
   <p>Julkisen avaimen kopioiminen ssh-palvelimelle</p>
 
@@ -131,18 +133,26 @@
 
         <h2>Lähteet</h2>
         <div class="sources">
-          <a target="_blank" href="https://www.loggly.com/ultimate-guide/linux-logging-basics/">https://www.loggly.com/ultimate-guide/linux-logging-basics/</a>
-          <a target="_blank" href="https://refspecs.linuxbase.org/LSB_3.0.0/LSB-PDA/LSB-PDA/baselib-pam-chauthtok.html">https://refspecs.linuxbase.org/LSB_3.0.0/LSB-PDA/LSB-PDA/baselib-pam-chauthtok.html</a>                          
-          <a target="_blank" href="http://terokarvinen.com/2020/aikataulu-linux-palvelimet-ict4tn021-3010-torstai-aamu-alkukevat-2020-5-op">http://terokarvinen.com/2020/aikataulu-linux-palvelimet-ict4tn021-3010-torstai-aamu-alkukevat-2020-5-op</a>
-          <a target="_blank" href="https://petrit.net/Linux-kurssi/komentorivi/tekstit/#tekstitiedoston-lukeminen-less-ja-more">https://petrit.net/Linux-kurssi/komentorivi/tekstit/#tekstitiedoston-lukeminen-less-ja-more</a>
-          <a target="_blank" href="https://linuxize.com/post/how-to-install-visual-studio-code-on-ubuntu-18-04/">https://linuxize.com/post/how-to-install-visual-studio-code-on-ubuntu-18-04/</a>
+          <a target="_blank"
+            href="https://www.loggly.com/ultimate-guide/linux-logging-basics/">https://www.loggly.com/ultimate-guide/linux-logging-basics/</a>
+          <a target="_blank"
+            href="https://refspecs.linuxbase.org/LSB_3.0.0/LSB-PDA/LSB-PDA/baselib-pam-chauthtok.html">https://refspecs.linuxbase.org/LSB_3.0.0/LSB-PDA/LSB-PDA/baselib-pam-chauthtok.html</a>
+          <a target="_blank"
+            href="http://terokarvinen.com/2020/aikataulu-linux-palvelimet-ict4tn021-3010-torstai-aamu-alkukevat-2020-5-op">http://terokarvinen.com/2020/aikataulu-linux-palvelimet-ict4tn021-3010-torstai-aamu-alkukevat-2020-5-op</a>
+          <a target="_blank"
+            href="https://petrit.net/Linux-kurssi/komentorivi/tekstit/#tekstitiedoston-lukeminen-less-ja-more">https://petrit.net/Linux-kurssi/komentorivi/tekstit/#tekstitiedoston-lukeminen-less-ja-more</a>
+          <a target="_blank"
+            href="https://linuxize.com/post/how-to-install-visual-studio-code-on-ubuntu-18-04/">https://linuxize.com/post/how-to-install-visual-studio-code-on-ubuntu-18-04/</a>
           <a target="_blank" href="https://en.wikipedia.org/wiki/Linux">https://en.wikipedia.org/wiki/Linux</a>
-          <a target="_blank" href="https://www.tecmint.com/wikipedia-commandline-tool/">https://www.tecmint.com/wikipedia-commandline-tool/</a>
-          <a target="_blank" href="https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md">https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md</a>
-          <a target="_blank" href="https://www.raspberrypi.org/documentation/remote-access/ssh/unix.md">https://www.raspberrypi.org/documentation/remote-access/ssh/unix.md</a>
+          <a target="_blank"
+            href="https://www.tecmint.com/wikipedia-commandline-tool/">https://www.tecmint.com/wikipedia-commandline-tool/</a>
+          <a target="_blank"
+            href="https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md">https://www.raspberrypi.org/documentation/remote-access/ssh/passwordless.md</a>
+          <a target="_blank"
+            href="https://www.raspberrypi.org/documentation/remote-access/ssh/unix.md">https://www.raspberrypi.org/documentation/remote-access/ssh/unix.md</a>
         </div>
 
-
+        <button onclick="topFunction()" id="myBtn" title="Go to top">Takaisin ylös</button>
 
 </body>
 
