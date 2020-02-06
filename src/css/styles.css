@@ -6,6 +6,10 @@ body {
   padding: 40px;
 }
 
+p {
+  font-size: 16px;
+}
+
 .main-navigation {
     text-align: center;
 }
