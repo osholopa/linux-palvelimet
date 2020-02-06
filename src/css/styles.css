@@ -14,10 +14,14 @@ p {
     text-align: center;
 }
 
+.index-body {
+  text-align: center;
+  font-size: 25px;
+}
+
 .excercises {
   display: flex;
   flex-direction: column;
-  text-align: center;
 }
 
 a {
