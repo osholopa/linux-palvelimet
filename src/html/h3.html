@@ -76,12 +76,89 @@
     lokitapahtuma, eli pyyntö oli tehty ennen kuin suoritin komennon sudo systemctl restart apache2 kohdassa a).
   </p>
 
+  <h2>d) Virheen teko Apachen asetustiedostoon ja virheilmoituksen analysointi</h2>
+  <h4>07.02.2020 klo 18.29 Linux Xubuntu
+    amd64 Live 18.04.3 LTS</h4>
+  <p>Menin hakemistoon /etc/apache2/ komentorivillä, ja tarkoituksenani on
+    tehdä tiedostoon apache2.conf jokin virheen aiheuttava muutos.</p>
+
+  <p>Yhdellä rivillä määriteltiin tiedosto, josta kuunneltavat porti löytyy: Include ports.conf.
+    Muutin tätä hiukan: Include portit.conf. </p>
+
+  <img src="../img/h3/configtest.png" alt="configtest">
+
+  <p>Tarkistin tuliko ilmoitusta komennolla apache2ctl configtest, ja se näytti virheilmoituksen. Virheen alku
+    kertoo sen koskevan apache2:ta. Sen jälkeen siinä ilmoitetaan syntaksivirheestä rivillä 150 tiedostossa
+    apache.conf. Lauseeseen on myös merkitty absoluuttinen tiedoston polku. Sitten ilmoitus kertoo ettei
+    ‘portit.conf’ - nimistä tiedostoa voi avata, koska sitä ei löydy. Tämän jälkeen todetaan että configtest
+    epäonnistui sekä apachen error logissa saattaa löytyä lisätietoa. </p>
+
+  <h2>i) Eri HTTP-Statusten lokiin aiheuttaminen.</h2>
+
+  <h4>08.02.2020 klo 13.34 Xubuntu amd64 18.04.3 Lenovo Legion Y520</h4>
+  <p>Menin komentorivillä apachen access
+    logiin hakemistoon /var/log/apache2 ja aloin seuraamaan lokia komennolla tail -f access.log. Päivitin
+    selaimessa sivun, jossa oli localhost auki ja lokiin tuli kaksi ilmoitusta, toinen statuskoodilla 200 ja
+    toinen statuksella 304. Loput statukset sain aikaan firefoxin developer konsolin network-välilehdeltä
+    tekemällä erilaisia HTTP-pyyntöjä.</p>
+
+  <h4>Status 200 - OK</h4>
+
+  <img src="../img/h3/status200.png" alt="status 200">
+
+  <p>Pyynnön IP-osoite on 127.0.0.1, se on tehty 8. Helmikuuta 2020 kellonaikaan 13:38:57 aikavyöhykkeellä
+    UTC+2. Pyyntö on GET- tyyppinen, polku on / eli juuri, protokolla on HTTP/1.1. Statuskoodi on 200 eli
+    onnistunut pyyntö, vastauksen pituus tavuina on 3477, joka vastaa apache2:n oletussivun pituutta. Selain on
+    mozilla-yhteensopiva, X display protokollaa käyttävä ubuntu linux amd64, gekkoversio on 72.0, selain on
+    Geckoon pohjautuva Firefox versio 72.0. </p>
+
+  <h4>Status 304 - Not Modified</h4>
+
+  <img src="../img/h3/status304.png" alt="status 304">
+
+  <p>IP-osoite, aika, tyyppi, protokolla sekä selain- ja järjestelmätiedot ovat samat kuin yllä, mutta polku on
+    /icons/ubuntu-logo.png ja statuskoodi 304, mikä kertoo asiakkaalle että vastausta ei ole muutettu, joten
+    asiakas voi käyttää välimuistissa olevaa vastauksen versiota. Tämä kuva ubuntu-logo.png on siis ladattu jo
+    aiemmin.</p>
+
+  <h4>Status 404 - Not Found</h4>
+
+  <img src="../img/h3/status404.png" alt="status 404">
+
+  <p>Tämä pyyntö on tehty polkuun /asd, jota ei ole olemassa, joten selain vastaa siihen statuksella 404, koska
+    pyydettyä resurssia ei löydy palvelimelta.</p>
+
+  <h4>Status 405 - Method not allowed</h4>
+
+  <img src="../img/h3/status405.png" alt="status 405">
+
+  <p>Tämä on tyhjä DELETE-tyyppinen pyyntö palvelimen juureen. Tämän pyynnön palvelin tunnistaa, mutta api ei
+    tue sitä. Siksi pyynnön metodia ei sallita.</p>
+
+  <h4>Status 408 - Request Timeout</h4>
+
+  <img src="../img/h3/status408.png" alt="status 408">
+
+  <p>Tässä on tyhjä POST-tyyppinen pyyntö polkuun /asd, jonka tuloksena oli timeout. Pyynnön osoitetta ei ole
+    olemassa, eikä POST-tyyppisiä pyyntöjä tueta, joten se aikakatkaistiin.</p>
+
+  <h4>Status 501 - Not Implemented</h4>
+
+  <img src="../img/h3/status501.png" alt="status 501">
+
+  <p>Yritin tehdä selaimen konsolilla ASD-tyyppisen http-pyynnön. ASD-tyyppistä HTTP-pyyntöä ei ole olemassa,
+    joten palvelin vastasi koodilla 501, joka tarkoittaa sitä ettei kyseisen tyyppistä pyyntöä tueta eikä sitä
+    voida käsitellä.</p>
+
+
   <h2>Lähteet</h2>
   <div class="sources">
     <a target="_blank"
       href="http://terokarvinen.com/2020/aikataulu-linux-palvelimet-ict4tn021-3010-torstai-aamu-alkukevat-2020-5-op">http://terokarvinen.com/2020/aikataulu-linux-palvelimet-ict4tn021-3010-torstai-aamu-alkukevat-2020-5-op</a>
     <a target="_blank"
       href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent/Firefox">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent/Firefox</a>
+    <a
+      href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">https://developer.mozilla.org/en-US/docs/Web/HTTP/Status</a>
   </div>
   <button onclick="topFunction()" id="myBtn" title="Go to top">Takaisin ylös</button>
   <script src="../js/main.js"></script>

@@ -7,7 +7,7 @@ body {
 }
 
 p {
-  font-size: 15px;
+  font-size: 16px;
 }
 
 .main-navigation {
@@ -16,7 +16,6 @@ p {
 
 .index-body {
   text-align: center;
-  font-size: 25px;
 }
 
 .excercises {
