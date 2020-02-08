@@ -150,6 +150,41 @@
     joten palvelin vastasi koodilla 501, joka tarkoittaa sitä ettei kyseisen tyyppistä pyyntöä tueta eikä sitä
     voida käsitellä.</p>
 
+  <h2>m) Apachen oletussivun vaihto ja sen muokkaaminen ilman pääkäyttäjän oikeuksia.</h2>
+
+  <h4>08.02.2020 klo 15.54 Lenovo Legion Y520 Xubuntu 18.04.3 amd64</h4>
+
+  <p>
+    Kohdan a) jälkeen käyttäjän sivut ovat toiminnassa. Otin ne pois toiminnasta komennolla sudo a2dismod userdir.
+    Tarkoituksena on laittaa käyttäjän kotisivut näkymään localhostissa virtual name based hostingin avulla.
+
+    Sitten menin hakemistoon /etc/apache2/sites-available/ ja loin tiedoston komennolla sudoedit
+    oskarintestisivu.com.conf, ja muokkasin sen näyttämään tältä:
+  </p>
+
+  <img src="../img/h3/oskarintestisivuconf.png" alt="">
+
+  <p>
+    Sitten otin oletussivun pois käytöstä komennolla sudo a2dissite 000-default.conf ja
+    asetin uuden sivun käyttöön komennolla sudo a2ensite oskarintestisivu.com.conf.
+  </p>
+
+  <p>Käynnistin apache2 demonin uudestaan komennolla sudo systemctl restart apache2. Menin katsomaan localhostia.</p>
+
+  <img src="../img/h3/testisivu.png" alt="">
+
+  <p>Testisivu tuli näkymään localhostissa. Alkuperäinen html-dokumentti on käyttäjän hakemistossa kansiossa
+    public_html. Kokeilen tehdä muutoksen dokumenttiin ja käynnistää apache2:n uudestaan. Muutos tuli näkyviin
+    onnistuneesti</p>
+
+  <img src="../img/h3/muutostesti.png" alt="">
+
+  <p>Kokeilin vielä tehdä toisen muutoksen avaamalla uuden terminaalin ja olla käynnistämättä palvelinta uudelleen.
+    Sekin muutos tuli näkyviin.</p>
+
+  <img src="../img/h3/muutostesti1.png" alt="">
+
+
 
   <h2>Lähteet</h2>
   <div class="sources">
