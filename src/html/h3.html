@@ -93,6 +93,58 @@
     ‘portit.conf’ - nimistä tiedostoa voi avata, koska sitä ei löydy. Tämän jälkeen todetaan että configtest
     epäonnistui sekä apachen error logissa saattaa löytyä lisätietoa. </p>
 
+
+
+  <h2>e) Asenna ja kokeile PhpMyAdmin:a tai jotain muuta valmista weppiliittymää tietokantojen hallinnointiin.</h2>
+  <h4>09.02.2020 Klo 17.50 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
+
+  <p>
+    Phpmyadminin vaatimuksina ovat Web-palvelin, PHP, tietokanta ja selain.
+    Koneeseen on jo apache sekä selain asennettuna. Aloitan asentamalla mysql serverin komennolla sudo apt-get -y
+    install mysql-server. Tämän jälkeen asensin php:n komennolla sudo apt-get -y install php. Nyt koneessa on Linux,
+    Apache, MySql ja Php asennettuna.
+  </p>
+
+  <p>
+    Sitten asensin phpmyadminin komennolla sudo apt-get -y install phpmyadmin. Valitsin palvelimista apachen ja asetin
+    salasanan.
+    Testasin, että php toimii tekemällä phpinfo-funktiota kutsuvan tiedoston index.php hakemistoon /var/www/html. Php
+    näytti toimivan.
+  </p>
+
+  <img src="../img/h3/php.png" alt="">
+
+  <p>
+    Testasin phpadminia osoitteesta localhost/phpmyadmin, mutta se ei jostain syystä avautunut. Pienen googlaamisen
+    jälkeen kävin lisäämässä apachen asetustiedoston /etc/apache2/apache2.conf loppuun rivin: Include
+    /etc/phpmyadmin/apache.conf. Käynnistin apachen uudelleen ja tämä auttoi.</p>
+
+  <img src="../img/h3/phpmyadmin.png" alt="">
+
+  <p>Koitin kirjautua sisään kokeillakseni
+    phpmyadminia, mutta sain vastaani virheilmoituksen: Access denied for user 'root'@'localhost'.
+  </p>
+
+  <p>Luodaan superuser-käyttäjä mysqliin. Kirjauduin mysqliin komennolla sudo mysql -p -u root.</p>
+
+  <p>Loin käyttäjän: CREATE USER 'käyttäjänimi'@'%' IDENTIFIED BY 'salasana';</p>
+
+  <p>
+    Sitten annoin käyttäjälle superuser-oikeudet komennolla:
+    GRANT ALL PRIVILEGES ON *.* TO 'käyttäjänimi'@'%' WITH GRANT OPTION;
+  </p>
+
+  <p>Kokeilin kirjautuaa sisään phpmyadminiin uudella käyttäjällä ja se onnistui.</p>
+
+  <img src="../img/h3/phpmyadmin1.png" alt="">
+
+
+  <p>Loin Tietokannan testi ja sinne relaation Esineet. Tänne laitoin testiksi tietoja muutamasta Esineestä.</p>
+
+  <img src="../img/h3/testitietokanta.png" alt="">
+
+
+
   <h2>i) Eri HTTP-Statusten lokiin aiheuttaminen.</h2>
 
   <h4>08.02.2020 klo 13.34 Xubuntu amd64 18.04.3 Lenovo Legion Y520</h4>
@@ -194,6 +246,7 @@
       href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent/Firefox">https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/User-Agent/Firefox</a>
     <a
       href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Status">https://developer.mozilla.org/en-US/docs/Web/HTTP/Status</a>
+      <a href="https://devanswers.co/installing-phpmyadmin-apache-ubuntu-18-04/">https://devanswers.co/installing-phpmyadmin-apache-ubuntu-18-04/</a>
   </div>
   <button onclick="topFunction()" id="myBtn" title="Go to top">Takaisin ylös</button>
   <script src="../js/main.js"></script>
