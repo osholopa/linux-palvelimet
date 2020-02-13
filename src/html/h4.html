@@ -1,16 +1,56 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="../css/styles.css">
-    <title>Harjoitus 4</title>
-  </head>
-  <body>
-    <nav class="main-navigation">
-      <h1>Linux-palvelimet</h1>
-      <p>Oskari Holopainen</p>
-      <a href="../../index.html">Takaisin</a>
-    </nav>
-    <h1>Harjoitus 4</h1>
-  </body>
+<html lang="fi" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Harjoitus 4</title>
+</head>
+
+<body>
+  <nav class="main-navigation">
+    <h1>Linux-palvelimet</h1>
+    <p>Oskari Holopainen</p>
+    <a href="../../index.html">Takaisin</a>
+  </nav>
+  <h1>Harjoitus 4</h1>
+  <h2>a) Tee alusta lähtien oma julkinen palvelin Internetiin.</h2>
+  <h4>13.02.2020 Klo 16.31 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
+  <p>Tässä tehtävässä lähtötilanteena on se, että domainilla on jo yksi palvelin ja tarkoitus on luoda alidomain sekä
+    toinen palvelin.</p>
+  <h4>Palvelimen luominen</h4>
+  <p>Aloitan luomalla cloud server dropletin <a href="https://www.digitalocean.com/"
+      target="_blank">DigitalOceaniin.</a> valitsen käyttöjärjestelmäksi Ubuntu 18.04.3 (LTS) x64:n. Otan
+    opiskelijalle sopivan halvimman ja pienimmän mahdollisen palvelimen, joka maksaa $5 kuussa. Valitsen Frankfurtin
+    datakeskuksen sijainniksi. En valitse lisäpalveluita palvelimelle.</p>
+  <h4>Palvelimen alkutoimet</h4>
+  <p>Kirjaudun palvelimelle julkisella avaimella komennolla ssh root@[palvelimeniposoite]. Teen palomuuriin reiän
+    ssh:lle porttiin 22 komennolla sudo ufw allow 22/tcp. Tämän jälkeen käynnistän palomuurin komennolla sudo ufw
+    enable. Sitten luon käyttäjän komennolla sudo adduser [käyttäjänimi]. Annan käyttäjälle salasanan ja asetan muut
+    tarvittavat tiedot.</p>
+  <p>Sitten annan käyttäjälle sudo:n ja adminin oikeudet komennoilla sudo adduser [käyttäjänimi] sudo ja sudo adduser
+    [käyttäjänimi] adm.</p>
+  <p>Tämän jälkeen kopioin juurikäyttäjän ssh-avaimen uudelle käyttäjälle root-kotihakemistosta käsin komennolla sudo cp
+    -r .ssh /home/[käyttäjänimi]/. SSH-avaimeen täytyy antaa vielä oikeudet, teen sen uuden käyttäjän kotihakemistosta
+    käsin komennolla sudo chown [käyttäjänimi].[käyttäjäryhmä] -R .ssh.</p>
+  <p>Kokeilen vielä, että uudella käyttäjällä on pääsy palvelimelle ja sudo-oikeudet, ennen kuin lukitsen
+    juurikäyttäjän.</p>
+  <p>Avaan uuden terminaalin. Annan komennon ssh [käyttäjänimi]@[IP-osoite]. Yhteys muodostuu ilman ongelmia. Kokeilen
+    toimiiko sudo-oikeudet antamalla komennot sudo apt-get update ja sudo apt-get -y install apache2. Komennot meni läpi
+    ongelmitta ja apache2 asentui.</p>
+  <p>Lukitsen juurikäyttäjän komennolla sudo usermod --lock root. Suljin yhteyden komennolla exit.
+
+
+    <h4>Alanimen luominen domainille <a href="http://osholopa.me" target="_blank">osholopa.me</a></h4>
+    <p>Aloitan kirjautumalla nimipalveluun osoitteessa <a href="https://namecheap.com" target="_blank">namecheap.com</a>
+      luodakseni alanimen.</p>
+    <p>DNS-hallinnassa luon uuden A-tietueen hostille "dev", ja laitan sen osoittamaan uuden palvelimen IP-osoitteeseen.
+      Haluan siis alinimen olevan dev.osholopa.me.</p>
+    <p>Otan ssh-yhteyden palvelimelle. Teen web-sivustoille palomuuriin reiän porttiin 80 komennolla sudo ufw allow
+      80/tcp</p>
+    <p>Muutan oletussivua komennolla sudo echo "Hei maailma!"| sudo tee/var/www/html/index.html.</p>
+    <p>Kokeilen ottaa selaimella yhteyden osoitteeseen dev.osholopa.me. Sivu toimii ja saan yhteyden palvelimelle.</p>
+    <img src="../img/h4/heimaailma.png" alt="heimaailma">
+</body>
+
 </html>
