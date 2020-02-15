@@ -51,6 +51,25 @@
     <p>Muutan oletussivua komennolla sudo echo "Hei maailma!"| sudo tee/var/www/html/index.html.</p>
     <p>Kokeilen ottaa selaimella yhteyden osoitteeseen dev.osholopa.me. Sivu toimii ja saan yhteyden palvelimelle.</p>
     <img src="../img/h4/heimaailma.png" alt="heimaailma">
+    <h2>b) Vapaaehtoinen: Etsi lokeistasi merkkejä murtautumisyrityksistä ja analysoi ne.</h2>
+    <h4>15.02.2020 Klo 11:05 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
+    <p>Aloitan ottamalla ssh-yhteyden palvelimelle komennolla ssh [käyttäjänimi]@[Palvelimen-IP-osoite].</p>
+    <p>Tarkastelin auth.logia hakemistossa /var/log/ ja siellä näkyi kirjautumisyrityksiä mielenkiintoisilla
+      käyttäjänimillä:</p>
+    <img src="../img/h4/authlog.png" alt="authlog">
+    <p>Analysoidaan ensimmäistä riviä:<br><br>
+      Feb 13 16:30:00 - Aikaleima, 13. helmikuuta klo 16:30:00 (UTC)<br>
+      lynx - palvelimen nimi<br>
+      sshd[14438] - sshd, eli ssh-daemon ja pid eli prosessi-id 14438 <br>
+      Invalid user admin - väärä käyttäjätunnus admin<br>
+      from 221.181.24.246 - IP-osoite, josta kirjautumisyritys on tehty<br>
+      port 33242 - portti johon kirjautumisyritys on tehty<br>
+    </p>
+    <p>Kaikki tämän ikkunan kirjautumisyritykset ovat tehty samasta IP-osoitteesta. Kuten kuvasta näkee, muita
+      yritettyjä nimiä ovat osboxes, NetLinx, netscreen, nextthink, misp, osbash, remnux, plexuser, openhabian, adsl,
+      super ja ZXDSL.</p>
+
+
 </body>
 
 </html>
