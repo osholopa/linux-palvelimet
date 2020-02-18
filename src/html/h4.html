@@ -70,7 +70,39 @@
       super ja ZXDSL.</p>
     <h2>c) Vapaaehtoinen: Laita TLS-salakirjoitus (https) toimimaan certbot ja Let's Encrypt avulla.</h2>
     <h4>18.02.2020 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
-      
+    <p>Aloitan ottamalla ssh-yhteyden palvelimelle, jonka jälkeen lisään Certbot PPA (Personal Package Archive).</p>
+    <p style="font-style: italic;">HUOM! Nämä ohjeet ovat suunnattu vain Apachella ja Ubuntu 18.04 LTS:llä pyöriville
+      nettisivuille.
+    </p>
+    <p>Ajoin seuraavat komennot:</p>
+    <ul>
+      <li>sudo apt-get update</li>
+      <li>sudo apt-get -y install software-properties-common</li>
+      <li>sudo add-apt-repository universe</li>
+      <li>sudo add-apt-repository ppa:certbot/certbot</li>
+      <li>sudo apt-get update</li>
+    </ul>
+    <p>Nyt Certbot voidaan asentaa komennolla:</p>
+    <p>sudo apt-get -y install certbot python-certbot-apache</p>
+    <p>Certbotin voi antaa muokata Apachen konfiguraatiota automaattisesti toimiakseen:</p>
+    <p>sudo certbot --apache</p>
+    <p>Asennusohjelma käynnistyi, vastailin kysymyksiin ja nyt https:n pitäisi toimia.</p>
+    <p>Testattuani ssl:ää osoitteessa <a target="_blank" href="https://www.ssllabs.com/ssltest/analyze.html?d=osholopa.me
+      ">https://www.ssllabs.com/ssltest/analyze.html?d=osholopa.me
+      </a> huomasin ettei palvelimelle saatu yhteyttä.</p>
+    <p>Käynnistin palvelimen uudestaan komennolla sudo systemctl restart apache2</p>
+    <p>Kävi ilmi, että SSL käyttää porttia 443, avasin portin komennolla sudo ufw allow 443/tcp</p>
+    <p>Tämä ratkaisi ongelman:</p>
+    <img src="../img/h4/ssl.png" alt="ssl-certificate.png">
+    <p>SSL Labsin antama tulos valitti CAA-tietueen puuttumisesta.</p>
+    <p>Lisään CAA-tietueen nimipalvelussa:</p>
+    <img src="../img/h4/caa.png" alt="caa-record.png">
+    <p>Nyt TLS-salakirjoitus toimii.</p>
+    <h2>Lähteet</h2>
+    <div class="sources">
+      <a target="_blank"
+        href="https://certbot.eff.org/lets-encrypt/ubuntubionic-apache">https://certbot.eff.org/lets-encrypt/ubuntubionic-apache</a>
+    </div>
 </body>
 
 </html>
