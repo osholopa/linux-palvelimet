@@ -98,11 +98,127 @@
     <p>Lisään CAA-tietueen nimipalvelussa:</p>
     <img src="../img/h4/caa.png" alt="caa-record.png">
     <p>Nyt TLS-salakirjoitus toimii.</p>
+    <h2>x) Koodaa ja julkaise uusi tietokantaa hyödyntävä weppipalvelu.</h2>
+    <h4>18.02.2020 Klo 15:51 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
+    <p>
+      Tavoitteenani on tehdä LAMP-stackilla toimiva muistiinpano-ohjelma. Muistiinpanot on tarkoitus tallentaa
+      tietokantaan ja käyttöliittymän tavoitteena on voida luoda, tarkastella, muokata ja poistaa muistiinpanoja.
+      Sovelluksen käyttöliittymän rakentamisessa käytän apuna materialize css:ää. Rakennan sovelluksen paikallisesti
+      ensin
+      niin, että se toimii ja siirrän sitten palvelimelle.
+    </p>
+    <p>
+      Kehittäessäni ohjelmaa paikallisesti käytän tietokannan hallintaan phpMyAdminia. Loin tietokannan notes_db ja
+      sinne relaation notes:</p>
+    <img src="../img/h4/notes.png" alt="">
+    <p>Yhdellä
+      muistiinpanolla on 4 attribuuttia: note_id, note_title, note_message ja created_at.
+    </p>
+    <img src="../img/h4/Structure.png" alt="">
+    <h4>19.02.2020 Klo 12:35 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
+    <p>
+      Nyt ohjelma on siinä vaiheessa, että sen voi siirtää palvelimelle tuotantoon. Ohjelmalla voi lisätä, tarkastella,
+      muokata ja poistaa tietokannassa olevia muistiinpanoja.
+    </p>
+    <p>Jotta sovellusta voisi käyttää palvelimella täytyy sinne asentaa vähintään:</p>
+    <ul>
+      <li>php</li>
+      <li>mariadb-server</li>
+      <li>tietokanta notes_db</li>
+      <li>käyttäjä jolla voi hakea, poistaa ja muokata tietueita.</li>
+    </ul>
+    <p>Sovellus on nyt hakemistossa /home/oskari/Documents/todoapp</p>
+    <p>
+      Kopioin ohjelman palvelimelle komennolla:
+      scp -r todoapp/ [käyttäjänimi]@osholopa.me:public_html/
+      Jotta ohjelma toimisi, täytyy palvelinta sekä ohjelmaa hieman konfiguroida. Otan ssh-yhteyden palvelimelle.
+      Asennan php:n ja mariadb:n komennolla
+      sudo apt-get -y install php mariadb-client mariadb-server
+    </p>
+    <p>
+      Tarkistan onko mariadb päällä komennolla sudo systemctl status mariadb
+    </p>
+    <img src="../img/h4/mariadb-status.png" alt="">
+    <p>
+      Ohjelma ei ainakaan ihan heti toimi, testaan toimiiko php luomalla phpinfo()-testitiedoston test.php.
+      Php näyttää ainakin toimivan:
+    </p>
+    <img src="../img/h4/phpinfo.png" alt="">
+    <p>
+      Aloitan konfiguroimaan tietokantaa.
+      Ajan komennon sudo mysql_secure_installation.
+      Asetan juurikäyttäjälle salasanan. Muihin kysymyksiin vastaan kyllä.
+    </p>
+    <p>
+      Luon tietokannan notes_db:
+      create database notes_db;
+    </p>
+    <p>
+      Luon tietokannalle käyttäjän:
+      GRANT ALL ON notes_db.* TO [käyttäjä]@localhost IDENTIFIED BY '[salasana]';
+    </p>
+    <p>
+      Kirjaudun ulos komennolla exit.
+      Kirjaudun uudella käyttäjällä sisään.
+      Ajan komennon USE notes_db.
+    </p>
+    <p>
+      Luon taulun notes komennolla:
+      CREATE TABLE notes (note_id INT AUTO_INCREMENT PRIMARY KEY, note_title VARCHAR(255), note_message VARCHAR(1024),
+      created_at TIMESTAMP)
+    </p>
+    <p>
+      Luon tietueita tauluun komennoilla:
+      INSERT INTO notes(note_title, note_message) VALUES ("Test", "This is a test note");
+      INSERT INTO notes(note_title, note_message) VALUES ("Test1", "This is another test");
+      Kun tarkistan miltä tietokanta näyttää komennolla
+      SELECT * FROM notes
+      saan seuraavanlaisen tuloksen:
+    </p>
+    <img src="../img/h4/mariadb_notes.png" alt="">
+    <p>
+      Ohjelma ei vieläkään toimi. tutkin asiaa hiukan ja käy ilmi, että täytyykin asentaa vielä tietokantamoduuli
+      PHP:lle.
+      Asennan sen komennolla sudo apt-get -y install php7.2-mysql.
+      Käynnistän palvelimen varmuuden vuoksi uudestaan ja tarkistan tilanteen.
+      Nyt ohjelma toimii, tietueet näkyvät selaimessa:
+    </p>
+    <img src="../img/h4/index.png" alt="">
+    <p>Muistiinpanon lisääminen näyttää tältä:</p>
+    <img src="../img/h4/add.png" alt="">
+    <p>
+      Muistiinpanoissa on tietty validointi, tyhjä lomake tai erikoismerkit paitsi pisteet ja pilkut ei mene läpi eikä
+      script tageja ajeta.
+    </p>
+    <p>Nyt muistiinpano on lisätty ja se tulee näkyviin:</p>
+    <img src="../img/h4/post-add.png" alt="">
+    <p>
+      Linkistä more info - pääsee tarkastelemaan näkymää, jossa näkyy luomishetki sekä mahdollisuus poistamiseen tai
+      muokkaamiseen.
+    </p>
+    <img src="../img/h4/details.png" alt="">
+    <p>Muokkaamisnäkymä:</p>
+    <img src="../img/h4/edit.png" alt="">
+    <p>Nyt muistiinpanoa on muokattu.</p>
+    <img src="../img/h4/edited-index.png" alt="">
+    <p>
+      Poistaminen tapahtuu painamalla
+      delete-nappia more info-näkymässä:
+    </p>
+    <img src="../img/h4/delete.png" alt="">
+    <p>Muistiinpano on poistettu:</p>
+    <img src="../img/h4/deleted-index.png" alt="">
+    <p>Sovelluksen tämänhetkinen koodi löytyy <a target="_blank"
+        href="https://github.com/osholopa/todoapp">GitHubista</a></p>
     <h2>Lähteet</h2>
     <div class="sources">
       <a target="_blank"
         href="https://certbot.eff.org/lets-encrypt/ubuntubionic-apache">https://certbot.eff.org/lets-encrypt/ubuntubionic-apache</a>
+      <a target="_blank"
+        href="http://terokarvinen.com/2018/install-mariadb-on-ubuntu-18-04-database-management-system-the-new-mysql">http://terokarvinen.com/2018/install-mariadb-on-ubuntu-18-04-database-management-system-the-new-mysql</a>
     </div>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Takaisin ylös</button>
+    <script src="../js/main.js"></script>
 </body>
 
 </html>
