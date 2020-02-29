@@ -20,6 +20,23 @@ pre {
   max-width: 60vw;
 }
 
+.tux {
+  border: none;
+  width: 5vw;
+  height: auto;
+}
+
+@media(max-width: 500px) {
+  .tux {
+    width: 14vw;
+  }
+}
+@media(min-width: 500px) and (max-width: 800px) {
+  .tux {
+    width: 12vw;
+  }
+}
+
 p {
   font-size: 16px;
 }

@@ -17,6 +17,8 @@
 			Kurssin tehtävät
 		</a>
     <p>Oskari Holopainen</p>
+    <a href="../../index.html"><img class="tux" src="../img/tux.png" alt="tux.png"></a>
+    <br>
     <a href="../../index.html">Takaisin</a>
   </nav>
   <h1>Harjoitus 2</h1>
@@ -70,7 +72,7 @@
   <img src="../img/h2/ssh-server.jpg" alt="ssh server" />
   <img src="../img/h2/sshd.jpg" alt="ssh daemon" />
 
-  <p>Otin raspin ip-osoitteen selville komennolla hostname -I.</p>
+  <p>Otin raspin ip-osoitteen selville komennolla <code>hostname -I</code>.</p>
 
   <p>Aloitin muodostamaan yhteyttä kannettavasta komennolla <code>ssh pi@123.456.789.12</code></p>
 
@@ -88,7 +90,7 @@
     kehotus
     tarkistaa, että vain haluamani avain on lisätty. Kirjauduin uudelleen raspille ja tarkistin asian menemällä
     hakemistoon ~/.ssh
-    ja antamalla komennon less authorized_keys, oikealta näytti. Poistun takaisin omalle koneelleni komennolla <code>exit</code>.</p>
+    ja antamalla komennon <code>less authorized_keys</code>, oikealta näytti. Poistun takaisin omalle koneelleni komennolla <code>exit</code>.</p>
 
   <p>Tiedostojen siirto scp:n avulla.<p>
       <p>Kokeilin luoda testikansion ja sen sisälle testitiedoston, jonka siirsin komennolla
