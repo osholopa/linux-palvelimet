@@ -12,6 +12,10 @@
 <body>
   <nav class="main-navigation">
     <h1>Linux-palvelimet</h1>
+    <p>Haaga-Helia ICT4TN021-3010, Opettaja Tero Karvinen</p>
+		<a target="_blank" href="http://terokarvinen.com/2020/linux-palvelimet-2020-alkukevat-kurssi-ict4tn021-3010/#alustavat-tehtavanannot">
+			Kurssin tehtävät
+		</a>
     <p>Oskari Holopainen</p>
     <a href="../../index.html">Takaisin</a>
   </nav>
@@ -21,12 +25,12 @@
   <h2>a) Aiheuta lokiin kaksi eri tapahtumaa: yksi esimerkki onnistuneesta ja yksi esimerkki epäonnistuneesta tai
     kielletystä toimenpiteestä. Analysoi rivit yksityiskohtaisesti.</h2>
 
-  <p>Aloitin autentikaatiolokitiedoston seurannan menemälllä kansioon /var/log ja antamalla komennon tail -f auth.log
+  <p>Aloitin autentikaatiolokitiedoston seurannan menemälllä kansioon /var/log ja antamalla komennon <code>tail -f auth.log</code>
   </p>
 
   <h4>Onnistunut lokitapahtuma</h4>
 
-  <p>Salasanan asetus tilanteessa, jossa sitä ei vielä ole asetettu. asetin salasanan komennolla passwd. Lokiin tulostui
+  <p>Salasanan asetus tilanteessa, jossa sitä ei vielä ole asetettu. asetin salasanan komennolla <code>passwd</code>. Lokiin tulostui
     seuraavat kaksi riviä (koneen kello on väärällä aikavyöhykkeellä): </p>
 
   <img src="../img/h2/onnistunut.png" alt="successful" />
@@ -57,9 +61,9 @@
     asettamalla
     julkisen avaimen avulla automaattisen kirjautumisen, jotta ei tarvitse syöttää salasanaa joka kerta.</p>
 
-  <p>Aloitin aktivoimalla ssh:n raspin terminaalissa antamalla komennot sudo systemctl enable ssh ja sudo systemctl
-    start ssh.
-    Lokiin tulostui ilmoitus ssh-palvelimen käynnistyksestä, ja kun listasin prosessit komennolla ps -A, näytti siltä
+  <p>Aloitin aktivoimalla ssh:n raspin terminaalissa antamalla komennot <code>sudo systemctl enable ssh</code> ja <code>sudo systemctl
+    start ssh</code>.
+    Lokiin tulostui ilmoitus ssh-palvelimen käynnistyksestä, ja kun listasin prosessit komennolla <code>ps -A</code>, näytti siltä
     että
     ssh-demoni (sshd) oli käynnissä.</p>
 
@@ -68,7 +72,7 @@
 
   <p>Otin raspin ip-osoitteen selville komennolla hostname -I.</p>
 
-  <p>Aloitin muodostamaan yhteyttä kannettavasta komennolla ssh pi@123.456.789.12</p>
+  <p>Aloitin muodostamaan yhteyttä kannettavasta komennolla <code>ssh pi@123.456.789.12</code></p>
 
   <img src="../img/h2/ssh.png" alt="ssh" />
 
@@ -80,15 +84,15 @@
 
   <p>Olen aiemmin luonut koneelleni julkisen ssh-avaimen, sitä en käy nyt sen tarkemmin läpi, mutta se on olemassa.
     Kopioin sen
-    verkon yli raspille komennolla ssh-copy-id pi@123.456.789.12. Tulee ilmoitus onnistuneesta avaimen lisäyksestä sekä
+    verkon yli raspille komennolla <code>ssh-copy-id pi@123.456.789.12</code>. Tulee ilmoitus onnistuneesta avaimen lisäyksestä sekä
     kehotus
     tarkistaa, että vain haluamani avain on lisätty. Kirjauduin uudelleen raspille ja tarkistin asian menemällä
     hakemistoon ~/.ssh
-    ja antamalla komennon less authorized_keys, oikealta näytti. Poistun takaisin omalle koneelleni komennolla exit.</p>
+    ja antamalla komennon less authorized_keys, oikealta näytti. Poistun takaisin omalle koneelleni komennolla <code>exit</code>.</p>
 
   <p>Tiedostojen siirto scp:n avulla.<p>
       <p>Kokeilin luoda testikansion ja sen sisälle testitiedoston, jonka siirsin komennolla
-        scp -r kansio/ pi@123.456.678.12:Desktop, ja Raspberry Pi:n työpöydälle ilmestyi sama kansio.</p>
+        <code>scp -r kansio/ pi@123.456.678.12:Desktop</code>, ja Raspberry Pi:n työpöydälle ilmestyi sama kansio.</p>
 
 
 
@@ -96,11 +100,13 @@
 
       <p>Päätin asentaa koodieditorin sekä versionhallintatyökalun samalla komennolla:</p>
 
-      <p>sudo apt-get update && sudo apt install software-properties-common apt-transport-https wget && wget -q
-        https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add - && sudo add-apt-repository "deb
-        [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" && sudo apt update && sudo apt install
-        code -y
-        && sudo apt-get -y install git</p>
+      <p><code>
+        sudo apt-get update && sudo apt install software-properties-common apt-transport-https wget && wget -q
+          https://packages.microsoft.com/keys/microsoft.asc -O- | sudo apt-key add - && sudo add-apt-repository "deb
+          [arch=amd64] https://packages.microsoft.com/repos/vscode stable main" && sudo apt update && sudo apt install
+          code -y
+          && sudo apt-get -y install git
+      </code></p>
 
 
       <h2>d) Asenna komentokehotteen paketinhallinnasta kolme itsellesi uutta komentorivillä toimivaa ohjelmaa. Kokeile
@@ -109,20 +115,20 @@
         <h4>Node.Js</h4>
         <p>Node on vapaa ja alustariippumaton javascript-suoritusympäristö, joka mahdollistaa javascipt-koodin ajamisen
           selaimen ulkopuolella. Aikomuksenani onkin suorittaa sillä erittäin alkeellista javascript-ohjelmaa
-          komentokehotteella. Asennan sen komennolla sudo apt-get install nodejs -y. kirjoitin pienen
+          komentokehotteella. Asennan sen komennolla <code>sudo apt-get install nodejs -y</code>. kirjoitin pienen
           javascript-tiedoston
-          komennolla echo “console.log(‘Hello, Xubuntu’)" > hello.js, ja suoritin sen komennolla node hello.js. </p>
+          komennolla <code>echo “console.log(‘Hello, Xubuntu’)" > hello.js</code>, ja suoritin sen komennolla <code>node hello.js</code>. </p>
 
         <img src="../img/h2/node.png" alt="node.js" />
 
 
         <h4>Node package manager</h4>
         <p>Node package manager eli npm on paketinhallintaohjelma, jolla voi käsitellä Nodessa suoritettavia
-          javascript-ohjelmia. Asensin sen komennolla sudo apt install npm -y. Käytän npm:ää kohdassa 3.</p>
+          javascript-ohjelmia. Asensin sen komennolla <code>sudo apt install npm -y</code>. Käytän npm:ää kohdassa 3.</p>
 
         <h4>Wikit</h4>
         <p>Tällä ohjelmalla voi etsiä wikipediasta tietoa komentokehotteen kautta. Käyttääkseni tätä, hyödynnän kahta
-          edellistä asentamaani ohjelmaa. Asensin sen npm:llä antamalla komennon sudo npm install wikit -g. </p>
+          edellistä asentamaani ohjelmaa. Asensin sen npm:llä antamalla komennon <code>sudo npm install wikit -g</code>. </p>
 
 
         <img src="../img/h2/npm.png" alt="npm" />

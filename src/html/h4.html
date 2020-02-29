@@ -3,6 +3,7 @@
 
 <head>
   <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="../css/styles.css">
   <title>Harjoitus 4</title>
 </head>
@@ -10,6 +11,10 @@
 <body>
   <nav class="main-navigation">
     <h1>Linux-palvelimet</h1>
+    <p>Haaga-Helia ICT4TN021-3010, Opettaja Tero Karvinen</p>
+		<a target="_blank" href="http://terokarvinen.com/2020/linux-palvelimet-2020-alkukevat-kurssi-ict4tn021-3010/#alustavat-tehtavanannot">
+			Kurssin tehtävät
+		</a>
     <p>Oskari Holopainen</p>
     <a href="../../index.html">Takaisin</a>
   </nav>
@@ -24,21 +29,21 @@
     opiskelijalle sopivan halvimman ja pienimmän mahdollisen palvelimen, joka maksaa $5 kuussa. Valitsen Frankfurtin
     datakeskuksen sijainniksi. En valitse lisäpalveluita palvelimelle.</p>
   <h4>Palvelimen alkutoimet</h4>
-  <p>Kirjaudun palvelimelle julkisella avaimella komennolla ssh root@[palvelimeniposoite]. Teen palomuuriin reiän
-    ssh:lle porttiin 22 komennolla sudo ufw allow 22/tcp. Tämän jälkeen käynnistän palomuurin komennolla sudo ufw
-    enable. Sitten luon käyttäjän komennolla sudo adduser [käyttäjänimi]. Annan käyttäjälle salasanan ja asetan muut
+  <p>Kirjaudun palvelimelle julkisella avaimella komennolla <code>ssh root@[palvelimeniposoite]</code>. Teen palomuuriin reiän
+    ssh:lle porttiin 22 komennolla <code>sudo ufw allow 22/tcp</code>. Tämän jälkeen käynnistän palomuurin komennolla <code>sudo ufw
+    enable</code>. Sitten luon käyttäjän komennolla <code>sudo adduser [käyttäjänimi]</code>. Annan käyttäjälle salasanan ja asetan muut
     tarvittavat tiedot.</p>
-  <p>Sitten annan käyttäjälle sudo:n ja adminin oikeudet komennoilla sudo adduser [käyttäjänimi] sudo ja sudo adduser
-    [käyttäjänimi] adm.</p>
-  <p>Tämän jälkeen kopioin juurikäyttäjän ssh-avaimen uudelle käyttäjälle root-kotihakemistosta käsin komennolla sudo cp
-    -r .ssh /home/[käyttäjänimi]/. SSH-avaimeen täytyy antaa vielä oikeudet, teen sen uuden käyttäjän kotihakemistosta
-    käsin komennolla sudo chown [käyttäjänimi].[käyttäjäryhmä] -R .ssh.</p>
+  <p>Sitten annan käyttäjälle sudo:n ja adminin oikeudet komennoilla <code>sudo adduser [käyttäjänimi] sudo</code> ja <code>sudo adduser
+    [käyttäjänimi] adm</code>.</p>
+  <p>Tämän jälkeen kopioin juurikäyttäjän ssh-avaimen uudelle käyttäjälle root-kotihakemistosta käsin komennolla <code>cp
+    -r .ssh /home/[käyttäjänimi]/</code>. SSH-avaimeen täytyy antaa vielä oikeudet, teen sen uuden käyttäjän kotihakemistosta
+    käsin komennolla <code>sudo chown [käyttäjänimi].[käyttäjäryhmä] -R .ssh</code>.</p>
   <p>Kokeilen vielä, että uudella käyttäjällä on pääsy palvelimelle ja sudo-oikeudet, ennen kuin lukitsen
     juurikäyttäjän.</p>
-  <p>Avaan uuden terminaalin. Annan komennon ssh [käyttäjänimi]@[IP-osoite]. Yhteys muodostuu ilman ongelmia. Kokeilen
-    toimiiko sudo-oikeudet antamalla komennot sudo apt-get update ja sudo apt-get -y install apache2. Komennot meni läpi
+  <p>Avaan uuden terminaalin. Annan komennon <code>ssh [käyttäjänimi]@[IP-osoite]</code>. Yhteys muodostuu ilman ongelmia. Kokeilen
+    toimiiko sudo-oikeudet antamalla komennot <code>sudo apt-get update</code> ja <code>sudo apt-get -y install apache2</code>. Komennot meni läpi
     ongelmitta ja apache2 asentui.</p>
-  <p>Lukitsen juurikäyttäjän komennolla sudo usermod --lock root. Suljin yhteyden komennolla exit.
+  <p>Lukitsen juurikäyttäjän komennolla <code>sudo usermod --lock root</code>. Suljin yhteyden komennolla exit.
 
 
     <h4>Alanimen luominen domainille <a href="http://osholopa.me" target="_blank">osholopa.me</a></h4>
@@ -46,14 +51,14 @@
       luodakseni alanimen.</p>
     <p>DNS-hallinnassa luon uuden A-tietueen hostille "dev", ja laitan sen osoittamaan uuden palvelimen IP-osoitteeseen.
       Haluan siis alinimen olevan dev.osholopa.me.</p>
-    <p>Otan ssh-yhteyden palvelimelle. Teen web-sivustoille palomuuriin reiän porttiin 80 komennolla sudo ufw allow
-      80/tcp</p>
-    <p>Muutan oletussivua komennolla sudo echo "Hei maailma!"| sudo tee/var/www/html/index.html.</p>
+    <p>Otan ssh-yhteyden palvelimelle. Teen web-sivustoille palomuuriin reiän porttiin 80 komennolla <code>ufw allow
+      80/tcp</code></p>
+    <p>Muutan oletussivua komennolla <code>sudo echo "Hei maailma!"| sudo tee/var/www/html/index.html</code>.</p>
     <p>Kokeilen ottaa selaimella yhteyden osoitteeseen dev.osholopa.me. Sivu toimii ja saan yhteyden palvelimelle.</p>
     <img src="../img/h4/heimaailma.png" alt="heimaailma">
     <h2>b) Vapaaehtoinen: Etsi lokeistasi merkkejä murtautumisyrityksistä ja analysoi ne.</h2>
     <h4>15.02.2020 Klo 11:05 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
-    <p>Aloitan ottamalla ssh-yhteyden palvelimelle komennolla ssh [käyttäjänimi]@[Palvelimen-IP-osoite].</p>
+    <p>Aloitan ottamalla ssh-yhteyden palvelimelle komennolla <code>ssh [käyttäjänimi]@[Palvelimen-IP-osoite]</code>.</p>
     <p>Tarkastelin auth.logia hakemistossa /var/log/ ja siellä näkyi kirjautumisyrityksiä mielenkiintoisilla
       käyttäjänimillä:</p>
     <img src="../img/h4/authlog.png" alt="authlog">
@@ -76,22 +81,22 @@
     </p>
     <p>Ajoin seuraavat komennot:</p>
     <ul>
-      <li>sudo apt-get update</li>
-      <li>sudo apt-get -y install software-properties-common</li>
-      <li>sudo add-apt-repository universe</li>
-      <li>sudo add-apt-repository ppa:certbot/certbot</li>
-      <li>sudo apt-get update</li>
+      <li><code>sudo apt-get update</code></li>
+      <li><code>sudo apt-get -y install software-properties-common</code></li>
+      <li><code>sudo add-apt-repository universe</code></li>
+      <li><code>sudo add-apt-repository ppa:certbot/certbot</code></li>
+      <li><code>sudo apt-get update</code></li>
     </ul>
     <p>Nyt Certbot voidaan asentaa komennolla:</p>
-    <p>sudo apt-get -y install certbot python-certbot-apache</p>
+    <p><code>sudo apt-get -y install certbot python-certbot-apache</code></p>
     <p>Certbotin voi antaa muokata Apachen konfiguraatiota automaattisesti toimiakseen:</p>
-    <p>sudo certbot --apache</p>
+    <p><code>sudo certbot --apache</code></p>
     <p>Asennusohjelma käynnistyi, vastailin kysymyksiin ja nyt https:n pitäisi toimia.</p>
     <p>Testattuani ssl:ää osoitteessa <a target="_blank" href="https://www.ssllabs.com/ssltest/analyze.html?d=osholopa.me
       ">https://www.ssllabs.com/ssltest/analyze.html?d=osholopa.me
       </a> huomasin ettei palvelimelle saatu yhteyttä.</p>
-    <p>Käynnistin palvelimen uudestaan komennolla sudo systemctl restart apache2</p>
-    <p>Kävi ilmi, että SSL käyttää porttia 443, avasin portin komennolla sudo ufw allow 443/tcp</p>
+    <p>Käynnistin palvelimen uudestaan komennolla <code>sudo systemctl restart apache2</code></p>
+    <p>Kävi ilmi, että SSL käyttää porttia 443, avasin portin komennolla <code>sudo ufw allow 443/tcp</code></p>
     <p>Tämä ratkaisi ongelman:</p>
     <img src="../img/h4/ssl.png" alt="ssl-certificate.png">
     <p>SSL Labsin antama tulos valitti CAA-tietueen puuttumisesta.</p>
@@ -130,13 +135,13 @@
     <p>Sovellus on nyt hakemistossa /home/oskari/Documents/todoapp</p>
     <p>
       Kopioin ohjelman palvelimelle komennolla:
-      scp -r todoapp/ [käyttäjänimi]@osholopa.me:public_html/
+      <code>scp -r todoapp/ [käyttäjänimi]@osholopa.me:public_html/</code>
       Jotta ohjelma toimisi, täytyy palvelinta sekä ohjelmaa hieman konfiguroida. Otan ssh-yhteyden palvelimelle.
       Asennan php:n ja mariadb:n komennolla
-      sudo apt-get -y install php mariadb-client mariadb-server
+      <code>sudo apt-get -y install php mariadb-client mariadb-server</code>
     </p>
     <p>
-      Tarkistan onko mariadb päällä komennolla sudo systemctl status mariadb
+      Tarkistan onko mariadb päällä komennolla <code>sudo systemctl status mariadb</code>
     </p>
     <img src="../img/h4/mariadb-status.png" alt="">
     <p>
@@ -146,16 +151,16 @@
     <img src="../img/h4/phpinfo.png" alt="">
     <p>
       Aloitan konfiguroimaan tietokantaa.
-      Ajan komennon sudo mysql_secure_installation.
+      Ajan komennon <code>sudo mysql_secure_installation</code>.
       Asetan juurikäyttäjälle salasanan. Muihin kysymyksiin vastaan kyllä.
     </p>
     <p>
       Luon tietokannan notes_db:
-      create database notes_db;
+      <code>create database notes_db;</code>
     </p>
     <p>
       Luon tietokannalle käyttäjän:
-      GRANT ALL ON notes_db.* TO [käyttäjä]@localhost IDENTIFIED BY '[salasana]';
+      <code>GRANT ALL ON notes_db.* TO [käyttäjä]@localhost IDENTIFIED BY '[salasana]';</code>
     </p>
     <p>
       Kirjaudun ulos komennolla exit.
@@ -164,22 +169,22 @@
     </p>
     <p>
       Luon taulun notes komennolla:
-      CREATE TABLE notes (note_id INT AUTO_INCREMENT PRIMARY KEY, note_title VARCHAR(255), note_message VARCHAR(1024),
-      created_at TIMESTAMP)
+      <code>CREATE TABLE notes (note_id INT AUTO_INCREMENT PRIMARY KEY, note_title VARCHAR(255), note_message VARCHAR(1024),
+      created_at TIMESTAMP)</code>
     </p>
     <p>
       Luon tietueita tauluun komennoilla:
-      INSERT INTO notes(note_title, note_message) VALUES ("Test", "This is a test note");
-      INSERT INTO notes(note_title, note_message) VALUES ("Test1", "This is another test");
+      <code>INSERT INTO notes(note_title, note_message) VALUES ("Test", "This is a test note");</code>
+     <code> INSERT INTO notes(note_title, note_message) VALUES ("Test1", "This is another test");</code>
       Kun tarkistan miltä tietokanta näyttää komennolla
-      SELECT * FROM notes
+     <code> SELECT * FROM notes</code>
       saan seuraavanlaisen tuloksen:
     </p>
     <img src="../img/h4/mariadb_notes.png" alt="">
     <p>
       Ohjelma ei vieläkään toimi. tutkin asiaa hiukan ja käy ilmi, että täytyykin asentaa vielä tietokantamoduuli
       PHP:lle.
-      Asennan sen komennolla sudo apt-get -y install php7.2-mysql.
+      Asennan sen komennolla <code>sudo apt-get -y install php7.2-mysql</code>.
       Käynnistän palvelimen varmuuden vuoksi uudestaan ja tarkistan tilanteen.
       Nyt ohjelma toimii, tietueet näkyvät selaimessa:
     </p>

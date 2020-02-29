@@ -12,6 +12,10 @@
 <body>
   <nav class="main-navigation">
     <h1>Linux-palvelimet</h1>
+    <p>Haaga-Helia ICT4TN021-3010, Opettaja Tero Karvinen</p>
+		<a target="_blank" href="http://terokarvinen.com/2020/linux-palvelimet-2020-alkukevat-kurssi-ict4tn021-3010/#alustavat-tehtavanannot">
+			Kurssin tehtävät
+		</a>
     <p>Oskari Holopainen</p>
     <a href="../../index.html">Takaisin</a>
   </nav>
@@ -22,23 +26,21 @@
 
   <h2>a) Apache2-webpalvelimen asennus</h2>
   <p>
-    Aloin asentamaan apachea komennolla sudo apt-get -y install apache2. Hetken päästä asennus oli valmis. Kokeilin
+    Aloin asentamaan apachea komennolla <code>sudo apt-get -y install apache2</code>. Hetken päästä asennus oli valmis. Kokeilin
     localhostista, näkyykö oletussivu. Oletussivu näkyi,
     vaikutti siltä että asennus onnistui. Seuraavaksi käyttäjien kotisivut.
   </p>
   <img src="../img/h3/apache-default.png" alt="apache default page">
   <p>
-    Käyttäjien kotisivut voisi ottaa käyttöön komennolla sudo a2enmod userdir, mutta nyt lähdin kokeilemaan linkitystä
+    Käyttäjien kotisivut voisi ottaa käyttöön komennolla <code>sudo a2enmod userdir</code>, mutta nyt lähdin kokeilemaan linkitystä
     komennolla
     ln -s. Ensin tein hakemiston public_html käyttäjän
     kotihakemistoon verkkosivuja varten komennolla cd && mkdir public_html. Loin sinne testitiedoston index.html
     komennolla echo "Testi" > index.html.</p>
   <p>
-    Ajoin komennot sudo ln -s /etc/apache2/mods-available/userdir.conf /etc/apache2/mods-enabled/userdir.conf ja sudo ln
-    -s /etc/apache2/mods-available/userdir.load
-    /etc/apache2/mods-enabled/userdir.load
+    Ajoin komennot <code>sudo ln -s /etc/apache2/mods-available/userdir.conf /etc/apache2/mods-enabled/userdir.conf</code> ja <code>sudo ln -s /etc/apache2/mods-available/userdir.load /etc/apache2/mods-enabled/userdir.load</code>
   </p>
-  <p>Aluksi ei vaikutus näkynyt, täytyi uudelleenkäynnistää palvelindemoni: sudo systemctl restart apache2.
+  <p>Aluksi ei vaikutus näkynyt, täytyi uudelleenkäynnistää palvelindemoni: <code>sudo systemctl restart apache2</code>.
     Tämän jälkeen muutokset tulivat näkyviin.</p>
 
   <img src="../img/h3/userdir.png" alt="userdir">
@@ -48,7 +50,7 @@
 
   <h2>b) Apachen loki</h2>
   <p>
-    Avasin apachen access-lokitiedoston komennolla cd /var/log/apache2/ && tail -f access.log. Päivitin sivun
+    Avasin apachen access-lokitiedoston komennolla <code>cd /var/log/apache2/ && tail -f access.log</code>. Päivitin sivun
     selaimesta, ja lokiin
     ilmestyi GET-pyyntö.
   </p>
@@ -73,7 +75,7 @@
   <p>
     Tässä on muuten sama rakenne kuin aiemmassa, mutta vastaus on tavuina hieman pitempi (488), statuskoodi 404, eli Not
     Found. Aikaleima on hetkeä aiemmin kuin edellinen onnistunut
-    lokitapahtuma, eli pyyntö oli tehty ennen kuin suoritin komennon sudo systemctl restart apache2 kohdassa a).
+    lokitapahtuma, eli pyyntö oli tehty ennen kuin suoritin komennon <code>sudo systemctl restart apache2</code> kohdassa a).
   </p>
 
   <h2>d) Virheen teko Apachen asetustiedostoon ja virheilmoituksen analysointi</h2>
@@ -93,20 +95,18 @@
     ‘portit.conf’ - nimistä tiedostoa voi avata, koska sitä ei löydy. Tämän jälkeen todetaan että configtest
     epäonnistui sekä apachen error logissa saattaa löytyä lisätietoa. </p>
 
-
-
   <h2>e) Asenna ja kokeile PhpMyAdmin:a tai jotain muuta valmista weppiliittymää tietokantojen hallinnointiin.</h2>
   <h4>09.02.2020 Klo 17.50 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
 
   <p>
     Phpmyadminin vaatimuksina ovat Web-palvelin, PHP, tietokanta ja selain.
-    Koneeseen on jo apache sekä selain asennettuna. Aloitan asentamalla mysql serverin komennolla sudo apt-get -y
-    install mysql-server. Tämän jälkeen asensin php:n komennolla sudo apt-get -y install php. Nyt koneessa on Linux,
+    Koneeseen on jo apache sekä selain asennettuna. Aloitan asentamalla mysql serverin komennolla <code>sudo apt-get -y
+    install mysql-server</code>. Tämän jälkeen asensin php:n komennolla <code>sudo apt-get -y install php</code>. Nyt koneessa on Linux,
     Apache, MySql ja Php asennettuna.
   </p>
 
   <p>
-    Sitten asensin phpmyadminin komennolla sudo apt-get -y install phpmyadmin. Valitsin palvelimista apachen ja asetin
+    Sitten asensin phpmyadminin komennolla <code>sudo apt-get -y install phpmyadmin</code>. Valitsin palvelimista apachen ja asetin
     salasanan.
     Testasin, että php toimii tekemällä phpinfo-funktiota kutsuvan tiedoston index.php hakemistoon /var/www/html. Php
     näytti toimivan.
@@ -125,13 +125,13 @@
     phpmyadminia, mutta sain vastaani virheilmoituksen: Access denied for user 'root'@'localhost'.
   </p>
 
-  <p>Luodaan superuser-käyttäjä mysqliin. Kirjauduin mysqliin komennolla sudo mysql -p -u root.</p>
+  <p>Luodaan superuser-käyttäjä mysqliin. Kirjauduin mysqliin komennolla <code>sudo mysql -p -u root</code>.</p>
 
-  <p>Loin käyttäjän: CREATE USER 'käyttäjänimi'@'%' IDENTIFIED BY 'salasana';</p>
+  <p>Loin käyttäjän: <code>CREATE USER 'käyttäjänimi'@'%' IDENTIFIED BY 'salasana';</code></p>
 
   <p>
     Sitten annoin käyttäjälle superuser-oikeudet komennolla:
-    GRANT ALL PRIVILEGES ON *.* TO 'käyttäjänimi'@'%' WITH GRANT OPTION;
+   <code>GRANT ALL PRIVILEGES ON *.* TO 'käyttäjänimi'@'%' WITH GRANT OPTION;</code>
   </p>
 
   <p>Kokeilin kirjautuaa sisään phpmyadminiin uudella käyttäjällä ja se onnistui.</p>
@@ -149,7 +149,7 @@
 
   <h4>08.02.2020 klo 13.34 Xubuntu amd64 18.04.3 Lenovo Legion Y520</h4>
   <p>Menin komentorivillä apachen access
-    logiin hakemistoon /var/log/apache2 ja aloin seuraamaan lokia komennolla tail -f access.log. Päivitin
+    logiin hakemistoon /var/log/apache2 ja aloin seuraamaan lokia komennolla <code>tail -f access.log</code>. Päivitin
     selaimessa sivun, jossa oli localhost auki ja lokiin tuli kaksi ilmoitusta, toinen statuskoodilla 200 ja
     toinen statuksella 304. Loput statukset sain aikaan firefoxin developer konsolin network-välilehdeltä
     tekemällä erilaisia HTTP-pyyntöjä.</p>
@@ -207,21 +207,21 @@
   <h4>08.02.2020 klo 15.54 Lenovo Legion Y520 Xubuntu 18.04.3 amd64</h4>
 
   <p>
-    Kohdan a) jälkeen käyttäjän sivut ovat toiminnassa. Otin ne pois toiminnasta komennolla sudo a2dismod userdir.
+    Kohdan a) jälkeen käyttäjän sivut ovat toiminnassa. Otin ne pois toiminnasta komennolla <code>sudo a2dismod userdir</code>.
     Tarkoituksena on laittaa käyttäjän kotisivut näkymään localhostissa virtual name based hostingin avulla.
 
-    Sitten menin hakemistoon /etc/apache2/sites-available/ ja loin tiedoston komennolla sudoedit
-    oskarintestisivu.com.conf, ja muokkasin sen näyttämään tältä:
+    Sitten menin hakemistoon /etc/apache2/sites-available/ ja loin tiedoston komennolla <code>sudoedit
+    oskarintestisivu.com.conf</code>, ja muokkasin sen näyttämään tältä:
   </p>
 
   <img src="../img/h3/oskarintestisivuconf.png" alt="">
 
   <p>
-    Sitten otin oletussivun pois käytöstä komennolla sudo a2dissite 000-default.conf ja
-    asetin uuden sivun käyttöön komennolla sudo a2ensite oskarintestisivu.com.conf.
+    Sitten otin oletussivun pois käytöstä komennolla <code>sudo a2dissite 000-default.conf</code> ja
+    asetin uuden sivun käyttöön komennolla <code>sudo a2ensite oskarintestisivu.com.conf</code>.
   </p>
 
-  <p>Käynnistin apache2 demonin uudestaan komennolla sudo systemctl restart apache2. Menin katsomaan localhostia.</p>
+  <p>Käynnistin apache2 demonin uudestaan komennolla <code>sudo systemctl restart apache2</code>. Menin katsomaan localhostia.</p>
 
   <img src="../img/h3/testisivu.png" alt="">
 
