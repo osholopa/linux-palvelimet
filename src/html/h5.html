@@ -19,18 +19,19 @@
     <p>Oskari Holopainen</p>
     <a href="../../index.html">Takaisin</a>
   </nav>
-  <h1>Harjoitus 5</h1>
-  <h2>a) Hello Flask! Tee Python Flask hei maailma kehitysympäristössä.</h2>
-  <h4>29.2.2020 Klo 12:00 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
-  <p>Aloitin asentamalla flaskin komennoilla:</p>
-  <ul>
-    <li><code>sudo apt-get update</code></li>
-    <li><code>sudo apt-get -y install python3-flask</code></li>
-  </ul>
-  <p>Tein ohjelmalle kansion komennolla <code>mkdir /home/oskari/Documents/helloapp</code>.</p>
-  <p>Sitten loin python-tiedoston komennolla <code>nano /home/oskari/Documents/helloapp/hello.py</code>.</p>
-  <p>Tallensin tiedostoon seuraavan koodinpätkän:</p>
-  <pre><font color="#4CCCE6"><b>from</b></font> flask <font color="#4CCCE6"><b>import</b></font> Flask
+  <div class="content">
+    <h1>Harjoitus 5</h1>
+    <h2>a) Hello Flask! Tee Python Flask hei maailma kehitysympäristössä.</h2>
+    <h4>29.2.2020 Klo 12:00 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
+    <p>Aloitin asentamalla flaskin komennoilla:</p>
+    <ul>
+      <li><code>sudo apt-get update</code></li>
+      <li><code>sudo apt-get -y install python3-flask</code></li>
+    </ul>
+    <p>Tein ohjelmalle kansion komennolla <code>mkdir /home/oskari/Documents/helloapp</code>.</p>
+    <p>Sitten loin python-tiedoston komennolla <code>nano /home/oskari/Documents/helloapp/hello.py</code>.</p>
+    <p>Tallensin tiedostoon seuraavan koodinpätkän:</p>
+    <pre><font color="#4CCCE6"><b>from</b></font> flask <font color="#4CCCE6"><b>import</b></font> Flask
     app = Flask(__name__)
     
     @app.route(<font color="#4CE64C"><b>&quot;/&quot;</b></font>)
@@ -39,35 +40,35 @@
     
     app.run(debug=<font color="#CC58CC"><b>True</b></font>)
     </pre>
-  <p>Menin komentokehotteella kansioon ja käynnistin ohjelman komennolla <code>python3 hello.py</code>.</p>
-  <p>Kehityspalvelin käynnistyi porttiin 5000:</p>
-  <img src="../img/h5/helloapp.png" alt="helloapp.png">
-  <h2>b) Tuotanto-Flask. Tee tuotantotyyppinen asennus Flaskista käyttäen Apachen WSGI-modulia.</h2>
-  <h4>29.2.2020 Klo 12:38 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
-  <p>Otin yhteyden palvelimelle komennolla <code>ssh oskari@142.93.108.95</code></p>
-  <p>Asensin apachen komennolla <code>sudo apt-get -y install apache2</code></p>
-  <p>Muutin oletussivua tarkistaakseni että palvelin oikeasti toimii:</p>
-  <ul>
-    <li><code>echo "Apache works"|sudo tee /var/www/html/index.html</code></li>
-    <li><code>curl localhost</code></li>
-  </ul>
-  <p>Muutos tuli näkyviin.</p>
-  <h4>Uuden käyttäjän luominen</h4>
-  <p>Asensin pwgenin komennolla <code>sudo apt -y install pwgen
+    <p>Menin komentokehotteella kansioon ja käynnistin ohjelman komennolla <code>python3 hello.py</code>.</p>
+    <p>Kehityspalvelin käynnistyi porttiin 5000:</p>
+    <img src="../img/h5/helloapp.png" alt="helloapp.png">
+    <h2>b) Tuotanto-Flask. Tee tuotantotyyppinen asennus Flaskista käyttäen Apachen WSGI-modulia.</h2>
+    <h4>29.2.2020 Klo 12:38 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
+    <p>Otin yhteyden palvelimelle komennolla <code>ssh oskari@142.93.108.95</code></p>
+    <p>Asensin apachen komennolla <code>sudo apt-get -y install apache2</code></p>
+    <p>Muutin oletussivua tarkistaakseni että palvelin oikeasti toimii:</p>
+    <ul>
+      <li><code>echo "Apache works"|sudo tee /var/www/html/index.html</code></li>
+      <li><code>curl localhost</code></li>
+    </ul>
+    <p>Muutos tuli näkyviin.</p>
+    <h4>Uuden käyttäjän luominen</h4>
+    <p>Asensin pwgenin komennolla <code>sudo apt -y install pwgen
   </code></p>
-  <p>Loin uudelle käyttäjälle salasanan komennolla <code>pwgen 30 1</code></p>
-  <p>Lisäsin uuden teknisen käyttäjän komennolla <code> sudo adduser oskariwsgi
+    <p>Loin uudelle käyttäjälle salasanan komennolla <code>pwgen 30 1</code></p>
+    <p>Lisäsin uuden teknisen käyttäjän komennolla <code> sudo adduser oskariwsgi
   </code></p>
-  <p>Käyttäjän salasanakirjautumista ei tarvita joten lukitsin sen komennolla <code>sudo usermod --lock oskariwsgi
+    <p>Käyttäjän salasanakirjautumista ei tarvita joten lukitsin sen komennolla <code>sudo usermod --lock oskariwsgi
   </code></p>
-  <p>Lisäsin käyttäjän oskari uuden käyttäjän käyttäjäryhmään komennolla <code> sudo adduser $(whoami) oskariwsgi
+    <p>Lisäsin käyttäjän oskari uuden käyttäjän käyttäjäryhmään komennolla <code> sudo adduser $(whoami) oskariwsgi
   </code></p>
-  <p>Kirjauduin ulos ja takaisin sisään komennoilla <code>exit</code> ja <code>ssh oskari@142.93.108.95</code>
-    aktivoidakseni muutokset</p>
-  <h4>Virtual name based hosting</h4>
-  <p>Ajoin komennon <code>sudoedit /etc/apache2/sites-available/oskariwsgi.conf</code></p>
-  <p>Muutin tiedoston näyttämään tältä:</p>
-  <pre>&lt;VirtualHost *:80&gt;
+    <p>Kirjauduin ulos ja takaisin sisään komennoilla <code>exit</code> ja <code>ssh oskari@142.93.108.95</code>
+      aktivoidakseni muutokset</p>
+    <h4>Virtual name based hosting</h4>
+    <p>Ajoin komennon <code>sudoedit /etc/apache2/sites-available/oskariwsgi.conf</code></p>
+    <p>Muutin tiedoston näyttämään tältä:</p>
+    <pre>&lt;VirtualHost *:80&gt;
     ServerName osholopa.me
 
     WSGIDaemonProcess oskariwsgi user=oskariwsgi group=oskariwsgi threads=5
@@ -81,65 +82,66 @@
     &lt;/Directory&gt;
 &lt;/VirtualHost&gt;</pre>
 
-  <p>Otin uuden sivun käytttöön komennolla <code>sudo a2ensite oskariwsgi.conf</code>.</p>
-  <p>Poistin vanhan käytöstä komennolla <code>sudo a2dissite 000-default.conf</code>.</p>
-  <p>Kokeilin mitä configtest sanoo konfiguraatiosta komennolla <code>apache2ctl configtest </code></p>
-  <p>Sain virheilmoituksen <code>Invalid command 'WSGIDaemonProcess', perhaps misspelled or ..</code></p>
-  <h4>WSGI:n asennus</h4>
-  <p>WSGI:tä ei ole vielä asennettu. Asensin wsgi:n komennolla <code>sudo apt-get -y install libapache2-mod-wsgi-py3
+    <p>Otin uuden sivun käytttöön komennolla <code>sudo a2ensite oskariwsgi.conf</code>.</p>
+    <p>Poistin vanhan käytöstä komennolla <code>sudo a2dissite 000-default.conf</code>.</p>
+    <p>Kokeilin mitä configtest sanoo konfiguraatiosta komennolla <code>apache2ctl configtest </code></p>
+    <p>Sain virheilmoituksen <code>Invalid command 'WSGIDaemonProcess', perhaps misspelled or ..</code></p>
+    <h4>WSGI:n asennus</h4>
+    <p>WSGI:tä ei ole vielä asennettu. Asensin wsgi:n komennolla <code>sudo apt-get -y install libapache2-mod-wsgi-py3
 </code></p>
-  <p>Kokeilin configtestiä uudestaan sain tuloksen: <code>Syntax OK</code>. Käynnistin palvelimen uudelleen komennolla
-    <code>sudo systemctl restart apache2
+    <p>Kokeilin configtestiä uudestaan sain tuloksen: <code>Syntax OK</code>. Käynnistin palvelimen uudelleen komennolla
+      <code>sudo systemctl restart apache2
 </code></p>
-  <p>Localhostissa näkyi statuskoodi 403 - Forbidden.</p>
-  <h4>Ohjelmakansion käyttöoikeudet</h4>
-  <p>Tarkistin, että lisäys oikeaan käyttäjäryhmään oskariwsgi oli onnistunut komennolla <code>groups</code></p>
-  <p>Sitten loin kansion ohjelmalle komennolla <code>sudo mkdir /home/oskariwsgi/public_wsgi
+    <p>Localhostissa näkyi statuskoodi 403 - Forbidden.</p>
+    <h4>Ohjelmakansion käyttöoikeudet</h4>
+    <p>Tarkistin, että lisäys oikeaan käyttäjäryhmään oskariwsgi oli onnistunut komennolla <code>groups</code></p>
+    <p>Sitten loin kansion ohjelmalle komennolla <code>sudo mkdir /home/oskariwsgi/public_wsgi
 </code></p>
-  <p>Vaihdoin kansion käyttöoikeudet komennolla <code>sudo chown oskariwsgi:oskariwsgi /home/oskariwsgi/public_wsgi/
+    <p>Vaihdoin kansion käyttöoikeudet komennolla <code>sudo chown oskariwsgi:oskariwsgi /home/oskariwsgi/public_wsgi/
 </code></p>
-  <p>Asetin kaikille ryhmän jäsenille hakemiston, uusien tiedostojen ja alihakemistojen lukemis- kirjoitus- ja
-    ajamisoikeudet komennolla <code>sudo chmod g=rwxs /home/oskariwsgi/public_wsgi/
+    <p>Asetin kaikille ryhmän jäsenille hakemiston, uusien tiedostojen ja alihakemistojen lukemis- kirjoitus- ja
+      ajamisoikeudet komennolla <code>sudo chmod g=rwxs /home/oskariwsgi/public_wsgi/
 </code></p>
-  <p>Tarkistin, miltä localhost näytti komennolla <code>curl -si localhost|grep title</code></p>
-  <p>Statuskoodi oli vaihtunut 404:ksi. Tämä johtuu siitä, ettei .wsgi tiedostoa löydy.</p>
-  <p>Loin tiedoston komennolla <code>nano /home/oskariwsgi/public_wsgi/oskari.wsgi</code>.</p>
-  <p>Muokkasin tiedoston näyttämään tältä:</p>
-  <pre>import sys
+    <p>Tarkistin, miltä localhost näytti komennolla <code>curl -si localhost|grep title</code></p>
+    <p>Statuskoodi oli vaihtunut 404:ksi. Tämä johtuu siitä, ettei .wsgi tiedostoa löydy.</p>
+    <p>Loin tiedoston komennolla <code>nano /home/oskariwsgi/public_wsgi/oskari.wsgi</code>.</p>
+    <p>Muokkasin tiedoston näyttämään tältä:</p>
+    <pre>import sys
   assert sys.version_info.major &gt;= 3, &quot;Python version too old in oskari.wsgi!&quot;
   
   sys.path.insert(0, &apos;/home/oskariwsgi/public_wsgi/&apos;)
   from hello import app as application</pre>
-  <p>Tallensin tiedoston ja ajoin komennon <code>curl -si localhost|grep title</code></p>
-  <p>Statuskoodi oli muuttunut 404:sta 500:ksi. Tarkistin error.login viimeisen rivin komennolla
-    <code> tail -1 /var/log/apache2/error.log </code></p>
-  <p>Lokitiedostosta löytyi seuraavanlainen virheilmoitus: <code>ModuleNotFoundError: No module named 'hello'</code></p>
-  <h4>Ohjelman asennus</h4>
-  <p>Moduuli täytyi siis luoda: suoritin komennon <code>nano /home/oskariwsgi/public_wsgi/hello.py</code></p>
-  <p>Tein tiedostoon Hello World-ohjelman:</p>
-  <pre><font color="#4CCCE6"><b>from</b></font> flask <font color="#4CCCE6"><b>import</b></font> Flask
+    <p>Tallensin tiedoston ja ajoin komennon <code>curl -si localhost|grep title</code></p>
+    <p>Statuskoodi oli muuttunut 404:sta 500:ksi. Tarkistin error.login viimeisen rivin komennolla
+      <code> tail -1 /var/log/apache2/error.log </code></p>
+    <p>Lokitiedostosta löytyi seuraavanlainen virheilmoitus: <code>ModuleNotFoundError: No module named 'hello'</code>
+    </p>
+    <h4>Ohjelman asennus</h4>
+    <p>Moduuli täytyi siis luoda: suoritin komennon <code>nano /home/oskariwsgi/public_wsgi/hello.py</code></p>
+    <p>Tein tiedostoon Hello World-ohjelman:</p>
+    <pre><font color="#4CCCE6"><b>from</b></font> flask <font color="#4CCCE6"><b>import</b></font> Flask
   app = Flask(__name__)
   
   @app.route(<font color="#4CE64C"><b>&quot;/&quot;</b></font>)
   <font color="#4CCCE6"><b>def</b></font><font color="#295FCC"><b> hello</b></font>():
           <font color="#4CCCE6"><b>return</b></font> <font color="#4CE64C"><b>&quot;Hello World!\n&quot;</b></font>
   </pre>
-  <p>Tarkistin miltä localhost nyt näyttää komennolla <code>curl localhost</code></p>
-  <p>Ohjelma toimii:</p>
-  <img src="../img/h5/prodhelloapp.png" alt="">
-  <p>Sama selaimessa:</p>
-  <img src="../img/h5/browserhelloapp.png" alt="">
-  <p>Kirjauduin ulos palvelimelta komennolla <code>exit</code></p>
+    <p>Tarkistin miltä localhost nyt näyttää komennolla <code>curl localhost</code></p>
+    <p>Ohjelma toimii:</p>
+    <img src="../img/h5/prodhelloapp.png" alt="">
+    <p>Sama selaimessa:</p>
+    <img src="../img/h5/browserhelloapp.png" alt="">
+    <p>Kirjauduin ulos palvelimelta komennolla <code>exit</code></p>
 
-  <h2>c) Lisää tuotanto-Flaskiin muotit (templates).</h2>
-  <h4>29.2.2020 Klo 13:24 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
-  <p>Otin yhteyden palvelimelle komennolla <code>ssh oskari@142.93.108.95</code></p>
-  <p>Menin ohjelman hakemistoon komennolla <code>cd /home/oskariwsgi/public_wsgi/
+    <h2>c) Lisää tuotanto-Flaskiin muotit (templates).</h2>
+    <h4>29.2.2020 Klo 13:24 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
+    <p>Otin yhteyden palvelimelle komennolla <code>ssh oskari@142.93.108.95</code></p>
+    <p>Menin ohjelman hakemistoon komennolla <code>cd /home/oskariwsgi/public_wsgi/
   </code></p>
-  <p>Loin hakemiston templates komennolla <code>mkdir templates</code>.</p>
-  <p>Vaihdoin hakemistoa komennolla <code>cd templates/</code></p>
-  <p>Loin pohjamallinteen komennolla <code>nano base.html</code>:</p>
-  <pre>
+    <p>Loin hakemiston templates komennolla <code>mkdir templates</code>.</p>
+    <p>Vaihdoin hakemistoa komennolla <code>cd templates/</code></p>
+    <p>Loin pohjamallinteen komennolla <code>nano base.html</code>:</p>
+    <pre>
     <font color="#1A92AA">&lt;!DOCTYPE html&gt;</font>
     <font color="#1A92AA">&lt;html </font><font color="#AA0000">lang=</font><font color="#44AA44">&quot;en&quot;</font><font color="#1A92AA">&gt;</font>
     <font color="#1A92AA">&lt;head&gt;</font>
@@ -159,8 +161,8 @@
     <font color="#1A92AA">&lt;/html&gt;</font>
   </pre>
 
-  <p>Sitten loin lapsitemplaten base.html:lle komennolla <code>nano index.html</code>:</p>
-  <pre>
+    <p>Sitten loin lapsitemplaten base.html:lle komennolla <code>nano index.html</code>:</p>
+    <pre>
     {% extends <font color="#44AA44">&quot;base.html&quot;</font> %}
     {% block title %}Index{% endblock %}
     {% block head %}
@@ -176,8 +178,9 @@
         <font color="#1A92AA">&lt;/p&gt;</font>
     {% endblock %}
     </pre>
-<p>Tämän jälkeen vaihdoin hakemistoa komennolla <code>cd ..</code> ja loin uuden python-moduulin komennolla <code>nano app.py</code>:</p>
-<pre>
+    <p>Tämän jälkeen vaihdoin hakemistoa komennolla <code>cd ..</code> ja loin uuden python-moduulin komennolla
+      <code>nano app.py</code>:</p>
+    <pre>
   <font color="#4CCCE6"><b>from</b></font> flask <font color="#4CCCE6"><b>import</b></font> Flask, render_template
 
   app = Flask(__name__)
@@ -186,21 +189,153 @@
   <font color="#4CCCE6"><b>def</b></font><font color="#295FCC"><b> templated</b></font>():
           <font color="#4CCCE6"><b>return</b></font> render_template(<font color="#4CE64C"><b>&quot;index.html&quot;</b></font>)
 </pre>
-<p>Muokkasin tiedostoa oskari.wsgi komennolla <code>nano oskari.wsgi</code>:</p>
-<pre>import sys
+    <p>Muokkasin tiedostoa oskari.wsgi komennolla <code>nano oskari.wsgi</code>:</p>
+    <pre>import sys
   assert sys.version_info.major &gt;= 3, &quot;Python version too old in oskari.wsgi!&quot;
   
   sys.path.insert(0, &apos;/home/oskariwsgi/public_wsgi/&apos;)
   from app import app as application
   </pre>
-<p>Poistin vanhan moduulin komennolla <code>rm hello.py</code></p>
-<p>Jotta muutokset saisi voimaan, ajoin komennon <code>touch oskari.wsgi</code></p>
-<p>Muutos näkyy julkisesti selaimessa:</p>
-<img src="../img/h5/templates.png" alt="">
-<p>Suljin yhteyden komennolla <code>exit</code></p>
+    <p>Poistin vanhan moduulin komennolla <code>rm hello.py</code></p>
+    <p>Jotta muutokset saisi voimaan, ajoin komennon <code>touch oskari.wsgi</code></p>
+    <p>Muutos näkyy julkisesti selaimessa:</p>
+    <img src="../img/h5/templates.png" alt="">
+    <p>Suljin yhteyden komennolla <code>exit</code></p>
+    <h2>d) Sun IP. Tee Flask-sivu, jolla näkyy tietoja käyttäjästä.</h2>
+    <h4>29.2.2020 Klo 18:32 Xubuntu 18.04.3 amd64 Lenovo Legion Y520</h4>
+    <p>Aloitin luomalla ohjelmalle kansion hakemistossa Documents komennolla <code>mkdir yourip</code>. Sitten loin
+      tiedoston yourip.py komennolla <code>nano yourip.py</code>.</p>
+
+    <p>Kirjoitin seuraavanlaisen ohjelman:</p>
+    <pre>
+    <span style="background-color:#B7B7B7"><font color="#131926">  GNU nano 2.9.3 yourip.py Modified  </font></span>
+
+<font color="#4CCCE6"><b>from</b></font> flask <font color="#4CCCE6"><b>import</b></font> Flask, request  
+app = Flask(__name__)
 
 
-<h2>Lähteet</h2>
+@app.route(<font color="#4CE64C"><b>&quot;/&quot;</b></font>)
+<font color="#4CCCE6"><b>def</b></font><font color="#295FCC"><b> yourip</b></font>():
+        userAgent = request.user_agent.string
+        remoteAddr = request.remote_addr
+        <font color="#4CCCE6"><b>return</b></font> <font color="#4CE64C"><b>&apos;Your user-agent-info: {user_agent}&lt;br&gt;&lt;br&gt;&apos;</b></font>.format(user_agent=userAgent)+<font color="#4CE64C"><b>&apos;Your IP: {ip}&apos;</b></font>.format(ip=remoteAddr)
+
+app.run(debug=<font color="#CC58CC"><b>True</b></font>)
+</pre>
+    <p>
+      Testasin ohjelmaa localhostissa komennolla <code>python3 yourip.py</code>.
+    </p>
+    <p>Ulkoasu näyttää hieman karulta ja ajattelin, että olisi hauska toteuttaa tämä hyödyntäen templateja ja niiden
+      perintää. Tein seuraavanlaisen pohjamallinteen kansioon templates komennoilla <code>mkdir templates</code>,
+      <code>cd templates</code> ja <code>nano base.html</code></p>
+
+    <pre><font color="#1A92AA">&lt;!DOCTYPE html&gt;</font>
+<font color="#1A92AA">&lt;html </font><font color="#AA0000">lang=</font><font color="#44AA44">&quot;en&quot;</font><font color="#1A92AA">&gt;</font>
+<font color="#1A92AA">&lt;head&gt;</font>
+    {% block head %}
+    <font color="#1A92AA">&lt;meta </font><font color="#AA0000">charset=</font><font color="#44AA44">&quot;UTF-8&quot;</font><font color="#1A92AA">&gt;</font>
+    <font color="#1A92AA">&lt;meta </font><font color="#AA0000">name=</font><font color="#44AA44">&quot;viewport&quot;</font><font color="#1A92AA"> </font><font color="#AA0000">content=</font><font color="#44AA44">&quot;</font><font color="#AA0000">width=</font><font color="#44AA44">device-width, initial-scale=1.0&quot;</font><font color="#1A92AA">&gt;</font>
+    <font color="#1A92AA">&lt;link </font><font color="#AA0000">rel=</font><font color="#44AA44">&quot;stylesheet&quot;</font><font color="#1A92AA"> </font><font color="#AA0000">href=</font><font color="#44AA44">&quot;{{ url_for(&apos;static&apos;, file</font><font color="#AA0000">name=</font><font color="#44AA44">&apos;css/style.css&apos;) }}&quot;</font><font color="#1A92AA"> /&gt;</font>
+    <font color="#1A92AA">&lt;title&gt;</font>{% block title %}{% endblock %}<font color="#1A92AA">&lt;/title&gt;</font>
+    {% endblock %}
+<font color="#1A92AA">&lt;/head&gt;</font>
+<font color="#1A92AA">&lt;body&gt;</font>
+    <font color="#1A92AA">&lt;div </font><font color="#AA0000">id=</font><font color="#44AA44">&quot;content&quot;</font><font color="#1A92AA">&gt;</font>{% block content %}{% endblock %}<font color="#1A92AA">&lt;/div&gt;</font>
+    <font color="#1A92AA">&lt;div </font><font color="#AA0000">id=</font><font color="#44AA44">&quot;footer&quot;</font><font color="#1A92AA">&gt;</font>
+        {% block footer %}
+        <font color="#AA0000">&amp;copy;</font> Copyright 2020 by Oskari Holopainen.
+        {% endblock %}
+    <font color="#1A92AA">&lt;/div&gt;</font>
+<font color="#1A92AA">&lt;/body&gt;</font>
+<font color="#1A92AA">&lt;/html&gt;</font>
+</pre>
+
+    <p>Sitten loin pohjamallinteen perivän lapsielementin yourip.html komennolla <code>nano yourip.html</code>:</p>
+
+    <pre>{% extends <font color="#44AA44">&quot;base.html&quot;</font> %}
+{% block title %}YourIP{% endblock %}
+{% block head %}
+    {{ super() }}
+{% endblock %}
+{% block content %}
+    <font color="#1A92AA">&lt;h1&gt;</font>Your IP<font color="#1A92AA">&lt;/h1&gt;</font>
+    <font color="#1A92AA">&lt;div </font><font color="#AA0000">class=</font><font color="#44AA44">&quot;content&quot;</font><font color="#1A92AA">&gt;</font>
+        <font color="#1A92AA">&lt;p&gt;</font>Your public IPv4 address is: {{userIp}}<font color="#1A92AA">&lt;/p&gt;</font>
+        <font color="#1A92AA">&lt;p&gt;</font>Your user-agent string: {{userAgent}}<font color="#1A92AA">&lt;/p&gt;</font>
+{% endblock %}
+</pre>
+
+    <p>Tein staattisille tiedostoille kansion static projektin juureen komennolla <code>mkdir static</code>, tämän
+      sisälle
+      kansion css, jonne asetin tyylitiedoston style.css:</p>
+
+    <pre>
+      <font color="#FF8787"><b>body </b></font><font color="#44AA44">{</font>
+      <font color="#AA5500">       </font><font color="#DED82C"><b> background-color</b></font><font color="#44AA44">:</font><font color="#FFFFFF"><b> #fafafa</b></font><font color="#44AA44">;</font>
+      <font color="#AA5500">       </font><font color="#DED82C"><b> border</b></font><font color="#44AA44">:</font><font color="#FFFFFF"><b> 1px solid black</b></font><font color="#44AA44">;</font>
+      <font color="#AA5500">       </font><font color="#DED82C"><b> border-radius</b></font><font color="#44AA44">:</font><font color="#FFFFFF"><b> 10px</b></font><font color="#44AA44">;</font>
+      <font color="#AA5500">       </font><font color="#DED82C"><b> color</b></font><font color="#44AA44">:</font><font color="#FFFFFF"><b> #3d4f78</b></font><font color="#44AA44">;</font>
+      <font color="#AA5500">       </font><font color="#DED82C"><b> padding</b></font><font color="#44AA44">:</font><font color="#FFFFFF"><b> 20px</b></font><font color="#44AA44">;</font>
+      <font color="#AA5500">       </font><font color="#DED82C"><b> font-family</b></font><font color="#44AA44">:</font><font color="#FFFFFF"><b> sans-serif</b></font><font color="#44AA44">;</font>
+      <font color="#44AA44">}</font>
+      
+      <font color="#FF8787"><b>h1 </b></font><font color="#44AA44">{</font>
+      <font color="#AA5500">       </font><font color="#DED82C"><b> text-align</b></font><font color="#44AA44">:</font><font color="#FFFFFF"><b> center</b></font><font color="#44AA44">;</font>
+      <font color="#AA5500">       </font><font color="#DED82C"><b> color</b></font><font color="#44AA44">:</font><font color="#FFFFFF"><b> #202a40</b></font><font color="#44AA44">;</font>
+      <font color="#44AA44">}</font>
+      </pre>
+
+    <p> Tämä riittäköön tyylittelyjen osalta, on aika siirtää sovellus palvelimelle ja testata, toimiiko ohjelma
+      oikeasti.
+    </p>
+
+    <h4>Tuotantoon siirto</h4>
+
+    <code>Aluksi kommentoin pois viimeisen rivin tiedostosta yourip.py:</code>
+
+    <pre><font color="#4CCCE6"><b>from</b></font> flask <font color="#4CCCE6"><b>import</b></font> Flask, request, render_template
+app = Flask(__name__)
+
+
+@app.route(<font color="#4CE64C"><b>&quot;/&quot;</b></font>)
+<font color="#4CCCE6"><b>def</b></font><font color="#295FCC"><b> yourip</b></font>():
+        userAgent = request.user_agent.string
+        remoteAddr = request.remote_addr
+        <font color="#4CCCE6"><b>return</b></font> render_template(<font color="#4CE64C"><b>&quot;yourip.html&quot;</b></font>, userIp=remoteAddr, userAgent=userAgent)
+
+<font color="#FF8787"><b>##app.run(debug=</b></font><font color="#CC58CC"><b>True</b></font><font color="#FF8787"><b>)</b></font>
+</pre>
+
+    <p>Otin yhteyden palvelimelle komennolla <code>ssh oskari@142.93.108.95</code></p>
+
+    <p>Menin edellisen tehtävän hakemistoon komennolla <code>cd /home/oskariwsgi/public_wsgi/</code>. Poistin turhat
+      tiedostot app.py, hello.py ja hakemiston templates.</p>
+
+    <p>Kopioin ohjelman kansiosta Documents käsin komennolla
+      <code>scp -r ./yourip/ oskari@142.93.108.95:/home/oskariwsgi/public_wsgi/</code>.</p>
+
+    <p>Tulos ei ollut ihan se mitä tavoittelin, sillä juurikansio kopioitui ohjelman mukana, mutta korjasin tilanteen
+      palvelimen hakemistossa public_wsgi komennoilla <code>cp -r yourip/. ./</code> ja <code>rm -r yourip/</code></p>
+
+    <p>WSGI-tiedostoa täytyi vielä muokata. Tein tämän komennolla <code>nano oskari.wsgi</code></p>
+
+    <pre>import sys
+assert sys.version_info.major &gt;= 3, &quot;Python version too old in oskari.wsgi!&quot;
+
+sys.path.insert(0, &apos;/home/oskariwsgi/public_wsgi/&apos;)
+from yourip import app as application</pre>
+
+    <p>Jotta muutokset tulevat voimaan, suoritin komennon <code>touch oskari.wsgi</code> ohjelman juurihakemistossa.</p>
+
+    <p>Avaan sovelluksen selaimessa:</p>
+    <img src="../img/h5/prodyourip.png" alt="">
+
+    <p>Testasin vielä avaamalla osoitteen puhelimen selaimessa eri verkossa ja sain eri tuloksen. Vaikuttaa toimivan!
+    </p>
+
+    <p>Suljin yhteyden palvelimelle komennolla <code>exit</code></p>
+  </div>
+  <h2>Lähteet</h2>
   <div class="sources">
     <a target="_blank"
       href="http://terokarvinen.com/2020/linux-palvelimet-2020-alkukevat-kurssi-ict4tn021-3010/#h5">http://terokarvinen.com/2020/linux-palvelimet-2020-alkukevat-kurssi-ict4tn021-3010/#h5</a>

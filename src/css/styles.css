@@ -13,7 +13,11 @@ code {
 
 pre {
   background-color: #e4e1e1;
-  display: table;
+  width: fit-content;
+}
+
+.content {
+  max-width: 60vw;
 }
 
 p {
