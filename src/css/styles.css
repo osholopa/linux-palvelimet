@@ -14,6 +14,8 @@ code {
 pre {
   background-color: #e4e1e1;
   width: fit-content;
+  tab-size: 4;
+  white-space: pre-wrap;
 }
 
 .content {
