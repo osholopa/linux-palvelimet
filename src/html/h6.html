@@ -1,28 +1,315 @@
 <!DOCTYPE html>
 <html lang="fi" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/styles.css">
-    <title>Harjoitus 6</title>
-  </head>
-  <body>
-    <nav class="main-navigation">
-      <h1>Linux-palvelimet</h1>
-      <p>Haaga-Helia ICT4TN021-3010, Opettaja Tero Karvinen</p>
-      <a target="_blank" href="http://terokarvinen.com/2020/linux-palvelimet-2020-alkukevat-kurssi-ict4tn021-3010/#alustavat-tehtavanannot">
-        Kurssin tehtävät
-      </a>
-      <p>Oskari Holopainen</p>
-      <a href="../../index.html"><img class="tux" src="../img/tux.png" alt="tux.png"></a>
-      <br>
-      <a href="../../index.html">Takaisin</a>
-    </nav>
-    <h1>Harjoitus 6</h1>
-    <h2>Lähteet</h2>
-    <div class="sources">
-    </div>
-    <button onclick="topFunction()" id="myBtn" title="Go to top">Takaisin ylös</button>
-    <script src="../js/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Harjoitus 6</title>
+</head>
+
+<body>
+  <nav class="main-navigation">
+    <h1>Linux-palvelimet</h1>
+    <p>Haaga-Helia ICT4TN021-3010, Opettaja Tero Karvinen</p>
+    <a target="_blank"
+      href="http://terokarvinen.com/2020/linux-palvelimet-2020-alkukevat-kurssi-ict4tn021-3010/#alustavat-tehtavanannot">
+      Kurssin tehtävät
+    </a>
+    <p>Oskari Holopainen</p>
+    <a href="../../index.html"><img class="tux" src="../img/tux.png" alt="tux.png"></a>
+    <br>
+    <a href="../../index.html">Takaisin</a>
+  </nav>
+  <h1>Harjoitus 6</h1>
+  <h2>a) Tee oma yksinkertainen, tietokantaa käyttävä ohjelma. Ohjelmalla tulee olla jokin käyttötarkoitus. Voit tehdä
+    ohjelman muokkaamalla <a href="http://terokarvinen.com/2020/flask-automatic-forms/" target="_blank">Teron koodia</a>
+  </h2>
+  <h4>05.03.2020 Klo 18.21 Xubuntu 18.04.3 amd64 Live USB</h4>
+  <p>
+    Tarkoituksenani on luoda projektinhallintajärjestelmän osa, jossa luodaan lomakkeella tiketti, ja listataan luodut
+    tiketit. Tiketistä tulee käydä ilmi siihen liittyvä projekti, ongelman tyyppi, jonkinlainen kuvaus tai tehtävänanto,
+    prioriteetti ja vaikka vastuuhenkilö.
+  </p>
+  <p>Lähtötilanteessa minulla on tyhjä live-ubuntu käynnissä.</p>
+
+  <h4>Flask-testiympäristön asennus ja Hello World.</h4>
+
+  <p>
+    Ajoin komennon <code>sudo apt-get update</code>. Loin ohjelmalle kansion komennolla
+    <code>mkdir projectmanager</code>.
+    Loin helloworldille
+    moduulin komennolla <code>nano hello.py</code>, kirjoitin sinne täsmälleen samanlaisen helloworld-ohjelman, kuin
+    täällä:
+    <a target="_blank"
+      href="http://terokarvinen.com/2020/hello-flask-python-web-app/">http://terokarvinen.com/2020/hello-flask-python-web-app/</a>
+    ja testasin sitä komennolla <code>python3 hello.py</code>. Flask-testiympäristö vaikutti toimivan.
+  </p>
+
+  <img src="../img/h6/hello.png" alt="hello.png" />
+
+  <h4>Flaskin automaattiset lomakkeet</h4>
+
+  <p>
+    Tässä kohdassa käytin lähteenä kurssin opettajan ohjetta:
+    <a target="_blank"
+      href="http://terokarvinen.com/2020/flask-automatic-forms/">http://terokarvinen.com/2020/flask-automatic-forms/</a>.
+    Asensin pwgenin komennolla <code>sudo apt-get -y install pwgen</code>. Poistin
+    hello.py-moduulin.
+  </p>
+
+  <p>
+    Menin ohjelman varsinaiseen kansioon komennolla <code>cd projectmanager</code>. Loin mallinteille kansion komennolla
+    <code>mkdir
+    templates</code>. Loin moduulin projectmanager.py ja kopioin sinne autoformed.py-moduulin <a target="_blank"
+      href="http://terokarvinen.com/2020/flask-automatic-forms/">lähdesivulta</a>. Tämän jälkeen kopioin
+    lähdesivulta koodipohjat kansioon templates tiedostoihin base.html ja replies.html.</p>
+
+  <p>Sitten asensin sqlalchemyn ja
+    flask-wtf:n komennoilla <code>sudo apt-get -y install python3-flask-sqlalchemy</code> ja <code>sudo apt-get -y install
+    python3-flaskext.wtf</code>. Käynnistin ohjelman komennolla <code>python3 projectmanager.py</code> ja testasin,
+    että
+    ohjelma käynnistyy
+    ilman virheilmoituksia.
+  </p>
+
+  <img src="../img/h6/testapp.png" alt="testapp.png">
+
+  <p>Muokkasin ohjelmatiedostoja omaan tarkoitukseen sopivammiksi:</p>
+
+  <h4>projectmanager.py:</h4>
+
+  <pre><font color="#4CCCE6"><b>from</b></font> flask <font color="#4CCCE6"><b>import</b></font> Flask, render_template, flash, redirect
+<font color="#4CCCE6"><b>from</b></font> flask_sqlalchemy <font color="#4CCCE6"><b>import</b></font> SQLAlchemy
+<font color="#4CCCE6"><b>from</b></font> wtforms.ext.sqlalchemy.orm <font color="#4CCCE6"><b>import</b></font> model_form
+<font color="#4CCCE6"><b>from</b></font> flask_wtf <font color="#4CCCE6"><b>import</b></font> FlaskForm
+<font color="#4CCCE6"><b>import</b></font> wtforms
+
+app = Flask(__name__)
+db = SQLAlchemy(app)
+app.config[<font color="#4CE64C"><b>&quot;SQLALCHEMY_DATABASE_URI&quot;</b></font>] = <font color="#4CE64C"><b>&quot;sqlite:///autoformed.db&quot;</b></font>
+app.config[<font color="#4CE64C"><b>&quot;SQLALCHEMY_TRACK_MODIFICATIONS&quot;</b></font>] = <font color="#CC58CC"><b>False</b></font>
+app.config[<font color="#4CE64C"><b>&quot;SECRET_KEY&quot;</b></font>] = <font color="#4CE64C"><b>&quot;vääräsalasana&quot;</b></font>
+
+<font color="#4CCCE6"><b>class</b></font> Reply(db.Model):
+        id = db.Column(db.Integer, primary_key=<font color="#CC58CC"><b>True</b></font>)
+        project = db.Column(db.String, nullable=<font color="#CC58CC"><b>False</b></font>)
+        type = db.Column(db.String, nullable=<font color="#CC58CC"><b>False</b></font>)
+        description = db.Column(db.String, nullable=<font color="#CC58CC"><b>False</b></font>)
+        urgent = db.Column(db.Boolean, nullable=<font color="#CC58CC"><b>False</b></font>)
+        pic = db.Column(db.String, nullable=<font color="#CC58CC"><b>False</b></font>)
+
+ReplyForm = model_form(model=Reply, base_class=FlaskForm, db_session=db.session)
+
+@app.before_first_request
+<font color="#4CCCE6"><b>def</b></font><font color="#295FCC"><b> beforeFirstRequest</b></font>():
+        db.create_all()
+
+@app.route(<font color="#4CE64C"><b>&quot;/&quot;</b></font>, methods=[<font color="#4CE64C"><b>&quot;GET&quot;</b></font>, <font color="#4CE64C"><b>&quot;POST&quot;</b></font>])
+<font color="#4CCCE6"><b>def</b></font><font color="#295FCC"><b> index</b></font>():
+        form = ReplyForm()
+
+        <font color="#4CCCE6"><b>if</b></font> form.validate_on_submit():
+                reply = Reply()
+                form.populate_obj(reply)
+                db.session.add(reply)
+                db.session.commit()
+                flash(<font color="#4CE64C"><b>&quot;Your ticket has been added. &quot;</b></font>)
+                <font color="#4CCCE6"><b>return</b></font> redirect(<font color="#4CE64C"><b>&quot;/&quot;</b></font>)
+        replies = db.session.query(Reply)
+        <font color="#4CCCE6"><b>return</b></font> render_template(<font color="#4CE64C"><b>&quot;replies.html&quot;</b></font>, form=form, replies=replies)
+
+<font color="#4CCCE6"><b>def</b></font><font color="#295FCC"><b> main</b></font>():
+        app.run(debug=<font color="#CC58CC"><b>True</b></font>)
+
+<font color="#4CCCE6"><b>if</b></font> __name__ == <font color="#4CE64C"><b>&quot;__main__&quot;</b></font>:
+        main()
+</pre>
+
+  <h4>replies.html:</h4>
+
+  <pre>{% extends <font color="#44AA44">&quot;base.html&quot;</font> %}
+{% block body %}
+<font color="#1A92AA">&lt;h1&gt;</font>Create a ticket<font color="#1A92AA">&lt;/h1&gt;</font>
+<font color="#1A92AA">&lt;form </font><font color="#AA0000">method=</font><font color="#1A92AA">post </font><font color="#AA0000">action=</font><font color="#44AA44">&quot;/&quot;</font><font color="#1A92AA">&gt;</font>
+        {{ form.csrf_token }}
+        {% for field in form if not field.name in [<font color="#44AA44">&quot;csrf_token&quot;</font>] %}
+                <font color="#1A92AA">&lt;p&gt;</font>{{ field.label }}: {{ field }} <font color="#CC58CC"><b>&lt;b&gt;</b></font>{{ <font color="#44AA44">&quot; &quot;</font>.join(field.errors) }}<font color="#CC58CC"><b>&lt;/b&gt;</b></font><font color="#1A92AA">&lt;/p&gt;</font>
+
+        {% endfor %}
+        <font color="#1A92AA">&lt;input </font><font color="#AA0000">type=</font><font color="#44AA44">&quot;submit&quot;</font><font color="#1A92AA">&gt;</font>
+<font color="#1A92AA">&lt;/form&gt;</font>
+
+<font color="#1A92AA">&lt;h2&gt;</font>Tickets<font color="#1A92AA">&lt;/h2&gt;</font>
+{% for reply in replies %}
+<font color="#1A92AA">&lt;div </font><font color="#AA0000">style=</font><font color="#44AA44">&quot;border: 1px solid black; display: inline-block; padding: 20px;&quot;</font><font color="#1A92AA">&gt;</font>
+  <font color="#1A92AA">&lt;p&gt;</font>Project: {{ reply.project }}<font color="#1A92AA">&lt;/p&gt;</font>
+  <font color="#1A92AA">&lt;p&gt;</font>Type: {{ reply.type }}<font color="#1A92AA">&lt;/p&gt;</font>
+  <font color="#1A92AA">&lt;p&gt;</font>Description: {{ reply.description }}<font color="#1A92AA">&lt;/p&gt;</font>
+  <font color="#1A92AA">&lt;p&gt;</font>Urgent: <font color="#CC58CC"><b>&lt;b&gt;</b></font>{{ reply.urgent }}<font color="#CC58CC"><b>&lt;/b&gt;</b></font><font color="#1A92AA">&lt;/p&gt;</font>
+  <font color="#1A92AA">&lt;p&gt;</font>Person in charge: {{ reply.pic }}<font color="#1A92AA">&lt;/p&gt;</font>
+<font color="#1A92AA">&lt;/div&gt;</font>
+{% endfor %}
+
+{% endblock %}
+</pre>
+
+  <h4>base.html:</h4>
+
+  <pre><font color="#1A92AA">&lt;!doctype html&gt;</font>
+<font color="#1A92AA">&lt;html </font><font color="#AA0000">lang=</font><font color="#1A92AA">en&gt;</font>
+        <font color="#1A92AA">&lt;head&gt;</font>
+                <font color="#1A92AA">&lt;title&gt;</font>Create a ticket<font color="#1A92AA">&lt;/title&gt;</font>
+                <font color="#1A92AA">&lt;meta </font><font color="#AA0000">charset=</font><font color="#44AA44">&quot;utf-8&quot;</font><font color="#1A92AA">&gt;</font>
+        <font color="#1A92AA">&lt;/head&gt;</font>
+        <font color="#1A92AA">&lt;body&gt;</font>
+                {% with messages = get_flashed_messages() %}
+                {% if messages %}
+                <font color="#1A92AA">&lt;ul </font><font color="#AA0000">class=</font><font color="#1A92AA">flashes&gt;</font>
+                        {% for message in messages %}
+                        <font color="#1A92AA">&lt;li&gt;</font>{{ message }}<font color="#1A92AA">&lt;/li&gt;</font>
+                        {% endfor %}
+                <font color="#1A92AA">&lt;/ul&gt;</font>
+                {% endif %}
+                {% endwith %}
+
+                {% block body %}
+                <font color="#1A92AA">&lt;h1&gt;</font>Hello<font color="#1A92AA">&lt;/h1&gt;</font>
+                {% endblock %}
+        <font color="#1A92AA">&lt;/body&gt;</font>
+
+<font color="#1A92AA">&lt;/html&gt;</font>
+</pre>
+  <p>Nyt ohjelmalla voi luoda tikettejä, jotka tallentuvat "projektinhallintajärjestelmän" tietokantaan.</p>
+  <img src="../img/h6/ticket1.png" alt="ticket1.png">
+
+  <h2>b) Laita tietokantaohjelmasi toimimaan mod_wsgi:n kanssa.</h2>
+  <h4>07.03.2020 Klo 09:45 Xubuntu 18.04.3 Live USB</h4>
+  <p>
+    Käytän tässä edellisen kohdan tietokantaohjelmaa joka tällä hetkellä sijaitsee hakemistossa
+    /home/xubuntu/projectmanager. Lähteenä käytän kurssiopettajan <a target="_blank"
+      href="http://terokarvinen.com/2020/deploy-python-flask-to-production/">tuotantoasennusohjeita</a>.
+    Päivitin pakettitiedot komennolla <code>sudo apt-get update</code> ja asensin curlin komennolla
+    <code>sudo apt install curl</code>.
+  </p>
+
+  <h4>Apachen asennus</h4>
+  <p>Asensin Apachen komennolla <code>sudo apt-get -y install apache2</code>.</p>
+  <p>Komento <code>curl localhost |grep title</code> antoi tuloksen: <code>Apache2 Ubuntu Default Page: It works</code>
+  </p>
+
+  <p>Testatakseni, että apache todella toimii vaihdoin apachen oletussivun komennolla
+    <code>echo "Tehdään tuotantoasennus Flaskista"|sudo tee /var/www/html/index.html</code></p>
+  <p>Nyt komento <code>curl localhost</code> antoi tuloksen: <code>Tehdään tuotantoasennus Flaskista</code>.</p>
+
+  <h4>Teknisen käyttäjän luominen</h4>
+  <p>Generoidakseni tekniselle käyttäjälle salasanan asensin pwgenin komennolla
+    <code>sudo apt-get -y install pwgen</code>.</p>
+  <p>Loin salasanan komennolla <code>pwgen 30 1</code>.</p>
+  <p>Tämän jälkeen loin ohjelmalle uuden teknisen käyttäjän komennolla <code>sudo adduser projectmanager</code></p>
+  <p>Koska käyttäjällä ei tarvitse kirjautua sisään, lukitsin salasanakirjautumisen komennolla
+    <code>sudo usermod --lock projectmanager</code>.</p>
+  <p>Lisäsin itseni käyttäjän ryhmään muokatakseni käyttäjän kotihakemistossa sijaitsevia tiedostoja:
+    <code>sudo adduser $(whoami) projectmanager</code></p>
+  <p>Jotta muutokset tulisi voimaan ajoin komennon <code>su - xubuntu</code> ja kirjauduin sisään. Tarkistin komennolla
+    <code>groups</code>, että käyttäjä xubuntu oli lisätty ryhmään projectmanager.</p>
+
+  <h4>Name based virtual host Flaskille</h4>
+  <p>Loin uudelle virtualhostille conf-tiedoston komennolla
+    <code>sudoedit /etc/apache2/sites-available/projectmanager.wsgi.conf</code>:</p>
+  <pre>&lt;VirtualHost *:80&gt;
+  ServerName projectmanager.example.com
+
+  WSGIDaemonProcess pmwsgi user=projectmanager group=projectmanager threads=5
+  WSGIScriptAlias / /home/projectmanager/public_wsgi/pm.wsgi
+
+  &lt;Directory /home/projectmanager/public_wsgi/&gt;
+          WSGIScriptReloading On
+          WSGIProcessGroup pmwsgi  
+          WSGIApplicationGroup %{GLOBAL}
+          Require all granted
+  &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</pre>
+  <p>Otin uuden virtualhostin käyttöön komennolla <code>sudo a2ensite projectmanager.wsgi</code>. Poistin vanhan
+    käytöstä komennolla <code>sudo a2dissite 000-default.conf</code>.</p>
+  <p><code>apache2ctl configtest</code> antoi tuloksen:
+    <code>Invalid command 'WSGIDaemonProcess', perhaps misspelled or..</code>.</p>
+  <p>Tämä johtui siitä, että mod-wsgi:tä ei ollut vielä asennettu. Asensin sen komennolla
+    <code>sudo apt-get -y install libapache2-mod-wsgi-py3</code>.</p>
+  <p><code>apache2ctl configtest</code> antoi nyt tuloksen <code>Syntax OK</code>.</p>
+  <p>Käynnistin palvelimen uudelleen komennolla <code>sudo systemctl restart apache2</code>.</p>
+  <h4>Käyttöoikeudet</h4>
+  <p>Tarkistin, miltä localhost näytti komennolla <code>curl localhost</code>. Sivun otsikossa oli statuskoodi
+    <code>403 Forbidden</code>.</p>
+  <p>Tarkistin apachen error.login viimeisen rivin komennolla <code>tail -1 /var/log/apache2/error.log</code>.
+    Virheviesti
+    valitti hakemistosta:
+    <code>AH01630: client denied by server configuration: /home/projectmanager/public_wsgi/</code>.</p>
+  <p>Hakemistoa ei ollut vielä olemassa. Loin hakemiston komennolla
+    <code>sudo mkdir /home/projectmanager/public_wsgi</code>.</p>
+  <p>Vaihdoin hakemiston oikeudet komennolla
+    <code>sudo chown projectmanager:projectmanager /home/projectmanager/public_wsgi/</code>.</p>
+  <p>Asetin hakemiston ryhmän jäsenille vielä read- write- ja execute-oikeudet komennolla
+    <code>sudo chmod g=rwxs /home/projectmanager/public_wsgi</code>.</p>
+  <p>Tarkistin tuloksen komennolla <code>ls -ld /home/projectmanager/public_wsgi/</code> ja sain halutun tuloksen:</p>
+  <p><code>drwxrwsr-x 2 projectmanager projectmanager 40 Mar  7 09:31 /home/projectmanager/public_wsgi/</code>.</p>
+  <p>Tarkistin komennolla <code>curl -si localhost|grep title</code>, miltä localhost näytti. Sivun otsikossa luki nyt
+    statuskoodi <code>404 Not Found</code></p>
+  <p>Tarkistin error.login viimeisen rivin komennolla <code>tail -1 /var/log/apache2/error.log</code>. Virheviestissä
+    oli nyt ilmoitus:
+    <code>Target WSGI script not found or unable to stat: /home/projectmanager/public_wsgi/pm.wsgi</code>.</p>
+  <h4>WSGI-skriptin luominen</h4>
+  <p>WSGI-skriptiä ei ole vielä luotu. Lähdin luomaan skriptiä komennolla
+    <code>nano /home/projectmanager/public_wsgi/pm.wsgi</code>. Kopioin ja muokkasin tiedoston sisällöksi <a
+      target="_blank" href="http://terokarvinen.com/2020/deploy-python-flask-to-production/">tuotantoasennusohjeista</a>
+    seuraavan:</p>
+  <pre>
+  import sys
+  assert sys.version_info.major &gt;= 3, &quot;Python version too old in pm.wsgi!&quot;
+        
+  sys.path.insert(0, &apos;/home/projectmanager/public_wsgi/&apos;)
+  from projectmanager import app as application       
+  </pre>
+  <p>Komento <code>curl -s localhost|grep title</code> antoi nyt otsikkoon statuskoodin
+    <code>500 Internal Server Error</code>.</p>
+  <p>Tarkistin error.login viimeisen rivin komennolla <code>tail -1 /var/log/apache2/error.log</code>. Virheviestistä
+    löytyi nyt ilmoitus:
+    <code>ModuleNotFoundError: No module named 'projectmanager'</code>.</p>
+  <p>Moduuli on jo olemassa, mutta ei oikeassa paikassa. Kopioin koko ohjelman teknisen käyttäjän hakemistoon
+    public_wsgi komennolla <code>cp -r /home/xubuntu/projectmanager/. /home/projectmanager/public_wsgi/</code>.</p>
+  <p>Ajoin komennon <code>touch /home/projectmanager/public_wsgi/pm.wsgi </code>, että muutokset tulisivat mahdollisesti
+    voimaan.</p>
+  <p>Komento <code>curl localhost</code> antoi vieläkin tuloksen 500 Internal Server Error.</p>
+  <p>Tarkistin lokin viimeisen rivin komennolla <code>tail -1 /var/log/apache2/error.log</code>.</p>
+  <p>Virheilmoitus oli vaihtunut: <code>ModuleNotFoundError: No module named 'flask'</code>.</p>
+  <p>Ohjelman käyttämät kirjastot täytyi vielä asentaa. Asensin nämä komennolla:
+    <code>sudo apt-get -y install python3-flask python3-flaskext.wtf python3-flask-sqlalchemy</code>.</p>
+  <p>Komento <code>curl localhost</code> antoi silti tuloksen 500 Internal Server Error.</p>
+  <p>Tarkistin lokin viimeisen rivin komennolla <code>tail -1 /var/log/apache2/error.log</code>. En nähnyt mitään kovin
+    informatiivista joten tarkistin 5 viimeistä riviä komennolla <code>tail -5 /var/log/apache2/error.log</code></p>
+  <p>Virheilmoituksesta löytyi viesti:
+    <code>PermissionError: [Errno 13] Permission denied: '/home/projectmanager/public_wsgi/templates/replies.html'</code>.
+  </p>
+  <p>Ohjelman alihakemistoihin oli näköjään jäänyt vielä vanhoja käyttöoikeuksia. Korjasin nämä komennolla
+    <code>sudo chown -R projectmanager:projectmanager /home/projectmanager/public_wsgi/</code>.</p>
+  <h4>Ohjelman tuotantoversion testaus</h4>
+  <p>Kokeilin vielä kerran <code>curl localhost</code>ia ja tulos näytti oikealta. Avasin localhostin selaimessa:</p>
+  <img src="../img/h6/projectmanager-prod.png" alt="projectmanager-prod.png">
+  <p>Testasin uuden tiketin lisäystä:</p>
+  <img src="../img/h6/ticket-prod.png" alt="ticket-prod.png">
+  <p>Ohjelma näyttää toimivan.</p>
+  <h2>Lähteet</h2>
+  <div class="sources">
+    <a target="_blank"
+      href="http://terokarvinen.com/2020/hello-flask-python-web-app/">http://terokarvinen.com/2020/hello-flask-python-web-app/</a>
+    <a target="_blank"
+      href="http://terokarvinen.com/2020/flask-automatic-forms/">http://terokarvinen.com/2020/flask-automatic-forms/</a>
+    <a target="_blank"
+      href="http://terokarvinen.com/2020/deploy-python-flask-to-production/">http://terokarvinen.com/2020/deploy-python-flask-to-production/</a>
+  </div>
+  <button onclick="topFunction()" id="myBtn" title="Go to top">Takaisin ylös</button>
+  <script src="../js/main.js"></script>
+</body>
+
 </html>
