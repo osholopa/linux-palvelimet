@@ -299,6 +299,295 @@ ReplyForm = model_form(model=Reply, base_class=FlaskForm, db_session=db.session)
   <p>Testasin uuden tiketin lisäystä:</p>
   <img src="../img/h6/ticket-prod.png" alt="ticket-prod.png">
   <p>Ohjelma näyttää toimivan.</p>
+  <h2>d) Vapaaehtoinen: Tunnussana! Tee Flask-ohjelma, jossa on autentikoituminen. Voit käyttää kovakoodattua
+    käyttäjätunnusta ja salasanaa.</h2>
+  <h4>09.03.2020 Klo 15:09 Xubuntu 18.04.4 Lenovo Legion Y520</h4>
+  <p>Tässä osassa käytän lähteenä DigitalOceanin <a
+      href="https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login"
+      target="_blank">flask-login-tutorialia</a>.
+    Viittaan tutoriaaliin myöhemmin lähdesivuna. En saanut jostain syystä blueprinttien importtausta toimimaan kunnolla,
+    joten
+    ajan säästämiseksi teen
+    tämän ohjelman ilman niitä.
+  </p>
+  <h4>Pääohjelma ja templatet</h4>
+  <p>Loin projektille tekemääni kansioon tiedoston app.py, ja sille seuraavan sisällön:</p>
+  <h4>app.py</h4>
+  <pre><font color="#000000"><b>from</b></font> flask <font color="#000000"><b>import</b></font> Flask, render_template
+    <font color="#000000"><b>from</b></font> flask_sqlalchemy <font color="#000000"><b>import</b></font> SQLAlchemy
+  
+    db = SQLAlchemy()
+    app = Flask(__name__)
+    
+    app.config[<font color="#216633"><b>&apos;SECRET_KEY&apos;</b></font>] = <font color="#216633"><b>&apos;salasanatähän&apos;</b></font>
+    app.config[<font color="#216633"><b>&apos;SQLALCHEMY_DATABASE_URI&apos;</b></font>] = <font color="#216633"><b>&apos;sqlite:///db.sqlite&apos;</b></font>
+    
+    db.init_app(app)
+    
+    @app.route(<font color="#216633"><b>&quot;/&quot;</b></font>)
+    <font color="#000000"><b>def</b></font><font color="#000000"><b> index</b></font>():
+            <font color="#000000"><b>return</b></font> render_template(<font color="#216633"><b>&apos;index.html&apos;</b></font>)
+    
+    @app.route(<font color="#216633"><b>&quot;/profile&quot;</b></font>)
+    <font color="#000000"><b>def</b></font><font color="#000000"><b> profile</b></font>():
+            <font color="#000000"><b>return</b></font> render_template(<font color="#216633"><b>&apos;profile.html&apos;</b></font>)
+    
+    @app.route(<font color="#216633"><b>&apos;/login&apos;</b></font>)
+    <font color="#000000"><b>def</b></font><font color="#000000"><b> login</b></font>():
+        <font color="#000000"><b>return</b></font> render_template(<font color="#216633"><b>&apos;login.html&apos;</b></font>)
+    
+    @app.route(<font color="#216633"><b>&apos;/signup&apos;</b></font>)
+    <font color="#000000"><b>def</b></font><font color="#000000"><b> signup</b></font>():
+        <font color="#000000"><b>return</b></font>  render_template(<font color="#216633"><b>&apos;signup.html&apos;</b></font>)
+    
+    @app.route(<font color="#216633"><b>&apos;/logout&apos;</b></font>)
+    <font color="#000000"><b>def</b></font><font color="#000000"><b> logout</b></font>():
+        <font color="#000000"><b>return</b></font> <font color="#216633"><b>&apos;Logout&apos;</b></font>
+    
+    app.run(Debug=<font color="#EC93D3"><b>True</b></font>)
+    </pre>
+  <p>Tämän jälkeen loin templatet:</p>
+  <h4>base.html</h4>
+  <pre><font color="#000000">&lt;!DOCTYPE html&gt;</font>
+    <font color="#000000">&lt;html&gt;</font>
+    
+    <font color="#000000">&lt;head&gt;</font>
+        <font color="#000000">&lt;meta </font><font color="#705050">charset=</font><font color="#216633">&quot;utf-8&quot;</font><font color="#000000">&gt;</font>
+        <font color="#000000">&lt;meta </font><font color="#705050">http-equiv=</font><font color="#216633">&quot;X-UA-Compatible&quot;</font><font color="#000000"> </font><font color="#705050">content=</font><font color="#216633">&quot;IE=edge&quot;</font><font color="#000000">&gt;</font>
+        <font color="#000000">&lt;meta </font><font color="#705050">name=</font><font color="#216633">&quot;viewport&quot;</font><font color="#000000"> </font><font color="#705050">content=</font><font color="#216633">&quot;</font><font color="#705050">width=</font><font color="#216633">device-width, initial-scale=1&quot;</font><font color="#000000">&gt;</font>
+        <font color="#000000">&lt;title&gt;</font>Flask Auth Example<font color="#000000">&lt;/title&gt;</font>
+        <font color="#000000">&lt;link </font><font color="#705050">rel=</font><font color="#216633">&quot;stylesheet&quot;</font><font color="#000000"> </font><font color="#705050">href=</font><font color="#216633">&quot;https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.2/css/bulma.min.css&quot;</font><font color="#000000"> /&gt;</font>
+    <font color="#000000">&lt;/head&gt;</font>
+    
+    <font color="#000000">&lt;body&gt;</font>
+        <font color="#000000">&lt;section </font><font color="#705050">class=</font><font color="#216633">&quot;hero is-primary is-fullheight&quot;</font><font color="#000000">&gt;</font>
+    
+            <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;hero-head&quot;</font><font color="#000000">&gt;</font>
+                <font color="#000000">&lt;nav </font><font color="#705050">class=</font><font color="#216633">&quot;navbar&quot;</font><font color="#000000">&gt;</font>
+                    <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;container&quot;</font><font color="#000000">&gt;</font>
+    
+                        <font color="#000000">&lt;div </font><font color="#705050">id=</font><font color="#216633">&quot;navbarMenuHeroA&quot;</font><font color="#000000"> </font><font color="#705050">class=</font><font color="#216633">&quot;navbar-menu&quot;</font><font color="#000000">&gt;</font>
+                            <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;navbar-end&quot;</font><font color="#000000">&gt;</font>
+                                <font color="#000000">&lt;a </font><font color="#705050">href=</font><font color="#216633">&quot;/&quot;</font><font color="#000000"> </font><font color="#705050">class=</font><font color="#216633">&quot;navbar-item&quot;</font><font color="#000000">&gt;</font>
+                                    Home
+                                <font color="#000000">&lt;/a&gt;</font>
+                                <font color="#000000">&lt;a </font><font color="#705050">href=</font><font color="#216633">&quot;/profile&quot;</font><font color="#000000"> </font><font color="#705050">class=</font><font color="#216633">&quot;navbar-item&quot;</font><font color="#000000">&gt;</font>
+                                    Profile
+                                <font color="#000000">&lt;/a&gt;</font>
+                                <font color="#000000">&lt;a </font><font color="#705050">href=</font><font color="#216633">&quot;/login&quot;</font><font color="#000000"> </font><font color="#705050">class=</font><font color="#216633">&quot;navbar-item&quot;</font><font color="#000000">&gt;</font>
+                                    Login
+                                <font color="#000000">&lt;/a&gt;</font>
+                                <font color="#000000">&lt;a </font><font color="#705050">href=</font><font color="#216633">&quot;/signup&quot;</font><font color="#000000"> </font><font color="#705050">class=</font><font color="#216633">&quot;navbar-item&quot;</font><font color="#000000">&gt;</font>
+                                    Sign Up
+                                <font color="#000000">&lt;/a&gt;</font>
+                                <font color="#000000">&lt;a </font><font color="#705050">href=</font><font color="#216633">&quot;/logout&quot;</font><font color="#000000"> </font><font color="#705050">class=</font><font color="#216633">&quot;navbar-item&quot;</font><font color="#000000">&gt;</font>
+                                    Logout
+                                <font color="#000000">&lt;/a&gt;</font>
+                            <font color="#000000">&lt;/div&gt;</font>
+                        <font color="#000000">&lt;/div&gt;</font>
+                    <font color="#000000">&lt;/div&gt;</font>
+                <font color="#000000">&lt;/nav&gt;</font>
+            <font color="#000000">&lt;/div&gt;</font>
+    
+            <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;hero-body&quot;</font><font color="#000000">&gt;</font>
+                <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;container has-text-centered&quot;</font><font color="#000000">&gt;</font>
+                   {% block content %}
+                   {% endblock %}
+                <font color="#000000">&lt;/div&gt;</font>
+            <font color="#000000">&lt;/div&gt;</font>
+        <font color="#000000">&lt;/section&gt;</font>
+    <font color="#000000">&lt;/body&gt;</font>
+    
+    <font color="#000000">&lt;/html&gt;</font>
+    </pre>
+  <h4>index.html</h4>
+  <pre>{% extends <font color="#216633">&quot;base.html&quot;</font> %}
+
+    {% block content %}
+    <font color="#000000">&lt;h1 </font><font color="#705050">class=</font><font color="#216633">&quot;title&quot;</font><font color="#000000">&gt;</font>
+      Flask Login Example
+    <font color="#000000">&lt;/h1&gt;</font>
+    <font color="#000000">&lt;h2 </font><font color="#705050">class=</font><font color="#216633">&quot;subtitle&quot;</font><font color="#000000">&gt;</font>
+      Easy authentication and authorization in Flask.
+    <font color="#000000">&lt;/h2&gt;</font>
+    {% endblock %}
+    </pre>
+  <h4>login.html</h4>
+  <pre>{% extends <font color="#216633">&quot;base.html&quot;</font> %}
+
+    {% block content %}
+    <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;column is-4 is-offset-4&quot;</font><font color="#000000">&gt;</font>
+        <font color="#000000">&lt;h3 </font><font color="#705050">class=</font><font color="#216633">&quot;title&quot;</font><font color="#000000">&gt;</font>Login<font color="#000000">&lt;/h3&gt;</font>
+        <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;box&quot;</font><font color="#000000">&gt;</font>
+            <font color="#000000">&lt;form </font><font color="#705050">method=</font><font color="#216633">&quot;POST&quot;</font><font color="#000000"> </font><font color="#705050">action=</font><font color="#216633">&quot;/login&quot;</font><font color="#000000">&gt;</font>
+                <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;field&quot;</font><font color="#000000">&gt;</font>
+                    <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;control&quot;</font><font color="#000000">&gt;</font>
+                        <font color="#000000">&lt;input </font><font color="#705050">class=</font><font color="#216633">&quot;input is-large&quot;</font><font color="#000000"> </font><font color="#705050">type=</font><font color="#216633">&quot;email&quot;</font><font color="#000000"> </font><font color="#705050">name=</font><font color="#216633">&quot;email&quot;</font><font color="#000000"> placeholder=</font><font color="#216633">&quot;Your Email&quot;</font><font color="#000000"> autofocus=</font><font color="#216633">&quot;&quot;</font><font color="#000000">&gt;</font>
+                    <font color="#000000">&lt;/div&gt;</font>
+                <font color="#000000">&lt;/div&gt;</font>
+    
+                <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;field&quot;</font><font color="#000000">&gt;</font>
+                    <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;control&quot;</font><font color="#000000">&gt;</font>
+                        <font color="#000000">&lt;input </font><font color="#705050">class=</font><font color="#216633">&quot;input is-large&quot;</font><font color="#000000"> </font><font color="#705050">type=</font><font color="#216633">&quot;password&quot;</font><font color="#000000"> </font><font color="#705050">name=</font><font color="#216633">&quot;password&quot;</font><font color="#000000"> placeholder=</font><font color="#216633">&quot;Your Password&quot;</font><font color="#000000">&gt;</font>
+                    <font color="#000000">&lt;/div&gt;</font>
+                <font color="#000000">&lt;/div&gt;</font>
+                <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;field&quot;</font><font color="#000000">&gt;</font>
+                    <font color="#000000">&lt;label </font><font color="#705050">class=</font><font color="#216633">&quot;checkbox&quot;</font><font color="#000000">&gt;</font>
+                        <font color="#000000">&lt;input </font><font color="#705050">type=</font><font color="#216633">&quot;checkbox&quot;</font><font color="#000000">&gt;</font>
+                        Remember me
+                    <font color="#000000">&lt;/label&gt;</font>
+                <font color="#000000">&lt;/div&gt;</font>
+                <font color="#000000">&lt;button </font><font color="#705050">class=</font><font color="#216633">&quot;button is-block is-info is-large is-fullwidth&quot;</font><font color="#000000">&gt;</font>Login<font color="#000000">&lt;/button&gt;</font>
+            <font color="#000000">&lt;/form&gt;</font>
+        <font color="#000000">&lt;/div&gt;</font>
+    <font color="#000000">&lt;/div&gt;</font>
+    {% endblock %}
+    </pre>
+  <h4>profile.html</h4>
+  <pre>{% extends <font color="#216633">&quot;base.html&quot;</font> %}
+
+    {% block content %}
+    <font color="#000000">&lt;h1 </font><font color="#705050">class=</font><font color="#216633">&quot;title&quot;</font><font color="#000000">&gt;</font>
+      Welcome, Oskari!
+    <font color="#000000">&lt;/h1&gt;</font>
+    {% endblock %}</pre>
+  <h4>signup.html</h4>
+  <pre>{% extends <font color="#216633">&quot;base.html&quot;</font> %}
+
+    {% block content %}
+    <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;column is-4 is-offset-4&quot;</font><font color="#000000">&gt;</font>
+        <font color="#000000">&lt;h3 </font><font color="#705050">class=</font><font color="#216633">&quot;title&quot;</font><font color="#000000">&gt;</font>Sign Up<font color="#000000">&lt;/h3&gt;</font>
+        <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;box&quot;</font><font color="#000000">&gt;</font>
+            <font color="#000000">&lt;form </font><font color="#705050">method=</font><font color="#216633">&quot;POST&quot;</font><font color="#000000"> </font><font color="#705050">action=</font><font color="#216633">&quot;/signup&quot;</font><font color="#000000">&gt;</font>
+                <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;field&quot;</font><font color="#000000">&gt;</font>
+                    <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;control&quot;</font><font color="#000000">&gt;</font>
+                        <font color="#000000">&lt;input </font><font color="#705050">class=</font><font color="#216633">&quot;input is-large&quot;</font><font color="#000000"> </font><font color="#705050">type=</font><font color="#216633">&quot;email&quot;</font><font color="#000000"> </font><font color="#705050">name=</font><font color="#216633">&quot;email&quot;</font><font color="#000000"> placeholder=</font><font color="#216633">&quot;Email&quot;</font><font color="#000000"> autofocus=</font><font color="#216633">&quot;&quot;</font><font color="#000000">&gt;</font>
+                    <font color="#000000">&lt;/div&gt;</font>
+                <font color="#000000">&lt;/div&gt;</font>
+    
+                <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;field&quot;</font><font color="#000000">&gt;</font>
+                    <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;control&quot;</font><font color="#000000">&gt;</font>
+                        <font color="#000000">&lt;input </font><font color="#705050">class=</font><font color="#216633">&quot;input is-large&quot;</font><font color="#000000"> </font><font color="#705050">type=</font><font color="#216633">&quot;text&quot;</font><font color="#000000"> </font><font color="#705050">name=</font><font color="#216633">&quot;name&quot;</font><font color="#000000"> placeholder=</font><font color="#216633">&quot;Name&quot;</font><font color="#000000"> autofocus=</font><font color="#216633">&quot;&quot;</font><font color="#000000">&gt;</font>
+                    <font color="#000000">&lt;/div&gt;</font>
+                <font color="#000000">&lt;/div&gt;</font>
+    
+                <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;field&quot;</font><font color="#000000">&gt;</font>
+                    <font color="#000000">&lt;div </font><font color="#705050">class=</font><font color="#216633">&quot;control&quot;</font><font color="#000000">&gt;</font>
+                        <font color="#000000">&lt;input </font><font color="#705050">class=</font><font color="#216633">&quot;input is-large&quot;</font><font color="#000000"> </font><font color="#705050">type=</font><font color="#216633">&quot;password&quot;</font><font color="#000000"> </font><font color="#705050">name=</font><font color="#216633">&quot;password&quot;</font><font color="#000000"> placeholder=</font><font color="#216633">&quot;Password&quot;</font><font color="#000000">&gt;</font>
+                    <font color="#000000">&lt;/div&gt;</font>
+                <font color="#000000">&lt;/div&gt;</font>
+    
+                <font color="#000000">&lt;button </font><font color="#705050">class=</font><font color="#216633">&quot;button is-block is-info is-large is-fullwidth&quot;</font><font color="#000000">&gt;</font>Sign Up<font color="#000000">&lt;/button&gt;</font>
+            <font color="#000000">&lt;/form&gt;</font>
+        <font color="#000000">&lt;/div&gt;</font>
+    <font color="#000000">&lt;/div&gt;</font>
+    {% endblock %}</pre>
+  <p>Projektin rakenne nyt:</p>
+  <img src="../img/h6/tree.png" alt="">
+  <h4>Ohjelman käynnistäminen</h4>
+  <p>Asetin FLASK_APP = muuttujaan arvon app komennolla <code>export FLASK_APP=app</code> ja ympäristön
+    kehitysympäristöksi komennolla <code>export FLASK_ENV=development</code>. Ohjelma käynnistyy nyt komennolla
+    <code>flask run</code>.</p>
+  <h4>Käyttäjämallien luominen</h4>
+  <p>Jotta käyttäjiä voitaisiin tallentaa tietokantaan, täytyy käyttäjille tehdä tietokantamalli sekä tietokanta alustaa. Lisäsin tiedostoon
+    app.py seuraavat rivit</p>
+  <pre>
+    class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(100), unique=True)
+    password = db.Column(db.String(100))
+    name = db.Column(db.String(1000))
+
+    @app.before_first_request
+    def beforeFirstRequest():
+	  db.create_all()
+  </pre>
+  <p>Ensimmäisen käynnistyksen jälkeen ohjelma on luonut tietokannan tiedostoon db.sqlite.</p>
+  <img src="../img/h6/sqlite.png" alt="">
+  <h4>Käyttäjätilin luominen</h4>
+  <p>Käyttäjätili luodaan lomakkeen HTTP POST-pyynnöllä. Lisäsin seuraavan reitin ohjelmaan:</p>
+  <pre>
+    @app.route('/signup', methods=['POST'])
+    def signup_post():
+        email = request.form.get('email')
+        name = request.form.get('name')
+        password = request.form.get('password')
+    
+        user = User.query.filter_by(email=email).first()
+        if user:
+            flash('Email address already exists')
+            return redirect('/signup')
+       
+        new_user = User(email=email, name=name, password=generate_password_hash(password, method='sha256'))
+    
+        db.session.add(new_user)
+        db.session.commit()
+    
+        return redirect('/login')
+  </pre>
+  <p>Ylläolevassa koodissa lomakkeesta saatu salasana tallennetaan muuttujaan ja siitä luodaan salasanatiiviste
+    <b>werkzeug.security</b>-kirjaston metodilla <code>generate_password_hash()</code>.</p>
+  <b>
+    <p>Flask-importteihin täytyi myös lisätä request, redirect ja flash</p>
+    <p>Tämän lisäksi seuraava import: <code>from werkzeug.security import generate_password_hash</code></p>
+  </b>
+  <h4>Virheilmoituksen lisääminen</h4>
+  <p>Metodissa signup_post() tarkastetaan, löytyykö tietokannasta käyttäjää, jolla on sama sähköpostiosoite. Jos
+    sellainen löytyy, täytyy käyttäjälle antaa virheilmoitus.</p>
+  <p>Lisään seuraavan pätkän tiedostoon signup.html ennen form-tagia:</p>
+  <pre>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <font color="#8CD0D3">&lt;div </font><font color="#705050">class=</font><font color="#60B48A">&quot;notification is-danger&quot;</font><font color="#8CD0D3">&gt;</font>
+        {{ messages[0] }}. Go to <font color="#8CD0D3">&lt;a </font><font color="#705050">href=</font><font color="#60B48A">&quot;/login&quot;</font><font color="#8CD0D3">&gt;</font>login page<font color="#8CD0D3">&lt;/a&gt;</font>.
+    <font color="#8CD0D3">&lt;/div&gt;</font>
+    {% endif %}
+    {% endwith %}</pre>
+  <p>Nyt, jos yrittää lisätä olemassaolevan käyttäjän, tulostuu virheilmoitus:</p>
+  <img src="../img/h6/already.png" alt="">
+  <h4>Login-metodi ja virheilmoitus</h4>
+  <p>Jotta käyttäjä voisi kirjautua sisään, täytyy tunnukset tarkistaa.</p>
+  <b>
+    <p>Lisään werkzeug.security-importteihin metodin check_password_hash</p>
+  </b>
+  <p>Määrittelen osoitteen "/login" reititykset uudelleen:</p>
+  <pre>
+    @app.route('/login', methods=['GET'])
+    def login():
+        return render_template('login.html')
+    
+    @app.route('/login', methods=['POST'])
+    def login_post():
+        email = request.form.get('email')
+        password = request.form.get('password')
+        remember = True if request.form.get('remember') else False
+    
+        user = User.query.filter_by(email=email).first()
+    
+        if not user or not check_password_hash(user.password, password):
+            flash('Please check your login details and try again.')
+            return redirect('/login')
+    
+        return redirect('/profile')
+  </pre>
+  <p>Tässä koodinpätkässä verrataan salasanatiivistettä annettuun salasanaan <b>werkzeug</b>-kirjaston metodilla
+    <code>check_password_hash()</code>, jolle annetaan parametrina käyttäjän lomakkeelle syöttämä salasana, sekä
+    tietokannasta haetun käyttäjän salasanatiiviste</p>
+  <p>Lisäksi login-templateen seuraava <b>ennen</b> form-tagia:</p>
+  <pre>
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <font color="#8CD0D3">&lt;div </font><font color="#705050">class=</font><font color="#60B48A">&quot;notification is-danger&quot;</font><font color="#8CD0D3">&gt;</font>
+        {{ messages[0] }}
+    <font color="#8CD0D3">&lt;/div&gt;</font>
+    {% endif %}
+    {% endwith %}</pre>
+  <p>Nyt väärillä tunnuksilla kirjautumisyrityksestä tulee virheviesti:</p>
+  <img src="../img/h6/loginerror.png" alt="">
+  <p>Oikeilla tunnuksilla kirjauduttaessa käyttäjä ohjautuu sivulle "/profile":</p>
+  <img src="../img/h6/loggedin.png" alt="">
+
+
   <h2>Lähteet</h2>
   <div class="sources">
     <a target="_blank"
@@ -307,6 +596,8 @@ ReplyForm = model_form(model=Reply, base_class=FlaskForm, db_session=db.session)
       href="http://terokarvinen.com/2020/flask-automatic-forms/">http://terokarvinen.com/2020/flask-automatic-forms/</a>
     <a target="_blank"
       href="http://terokarvinen.com/2020/deploy-python-flask-to-production/">http://terokarvinen.com/2020/deploy-python-flask-to-production/</a>
+    <a href="https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login"
+      target="_blank">https://www.digitalocean.com/community/tutorials/how-to-add-authentication-to-your-app-with-flask-login</a>
   </div>
   <button onclick="topFunction()" id="myBtn" title="Go to top">Takaisin ylös</button>
   <script src="../js/main.js"></script>
