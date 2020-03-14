@@ -1,28 +1,259 @@
 <!DOCTYPE html>
 <html lang="fi" dir="ltr">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="../css/styles.css">
-    <title>Harjoitus 7</title>
-  </head>
-  <body>
-    <nav class="main-navigation">
-      <h1>Linux-palvelimet</h1>
-      <p>Haaga-Helia ICT4TN021-3010, Opettaja Tero Karvinen</p>
-      <a target="_blank" href="http://terokarvinen.com/2020/linux-palvelimet-2020-alkukevat-kurssi-ict4tn021-3010/#alustavat-tehtavanannot">
-        Kurssin tehtävänannot
-      </a>
-      <p>Oskari Holopainen</p>
-      <a href="../../index.html"><img class="tux" src="../img/tux.png" alt="tux.png"></a>
-      <br>
-      <a href="../../index.html">Etusivu</a>
-    </nav>
-    <h1>Harjoitus 7</h1>
-    <h2>Lähteet</h2>
-    <div class="sources">
-    </div>
-    <button onclick="topFunction()" id="myBtn" title="Go to top">Takaisin ylös</button>
-    <script src="../js/main.js"></script>
-  </body>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="../css/styles.css">
+  <title>Harjoitus 7</title>
+</head>
+<body>
+  <nav class="main-navigation">
+    <h1>Linux-palvelimet</h1>
+    <p>Haaga-Helia ICT4TN021-3010, Opettaja Tero Karvinen</p>
+    <a target="_blank"
+      href="http://terokarvinen.com/2020/linux-palvelimet-2020-alkukevat-kurssi-ict4tn021-3010/#alustavat-tehtavanannot">
+      Kurssin tehtävänannot
+    </a>
+    <p>Oskari Holopainen</p>
+    <a href="../../index.html"><img class="tux" src="../img/tux.png" alt="tux.png"></a>
+    <br>
+    <a href="../../index.html">Etusivu</a>
+  </nav>
+  <h1>Harjoitus 7</h1>
+  <h2>a) Ratkaise valitsemasi vanha arvioitava laboratorioharjoitus tältä kurssilta.</h2>
+  <h4>14.03.2020 Klo 15:25 Xubuntu 18.04.3 Live USB</h4>
+  <h4><a target="_blank"
+      href="http://terokarvinen.com/2019/arvioitava-laboratorioharjoitus-linux-palvelimet-ict4tn021-3004-ti-alkukevat-2019-5-op">Laboratorioharjoitus
+      alkukevät 2019</a></h4>
+  <p>Teen vanhoja harjoituksia niistä aiheista, joita tällä kurssilla on käsitelty.</p>
+  <ul>
+    <h4>Sisältö:</h4>
+    <li style="padding-top: 8px;"><a href="#lamp">LAMP</a></li>
+    <li style="padding-top: 8px;"><a href="#goodmorning">Good Morning-skripti</a></li>
+    <li style="padding-top: 8px;"><a href="#kayttajat">Käyttäjät ja niiden kotisivut</a></li>
+    <li style="padding-top: 8px;"><a href="#helloworld">Flask Hei Maailma</a></li>
+    <li style="padding-top: 8px;"><a href="#nbvh">Name Based Virtual Host</a></li>
+    <li style="padding-top: 8px;"><a href="#lahteet">Lähteet</a></li>
+  </ul>
+  <h3 id="lamp">##LAMP</h3>
+  <p>
+    Asenna LAMP. Tee esimerkkiohjelma, joka hakee tietueita tietokannasta. Maija ryhtyy ohjelmoimaan LAMP:illa. Tee
+    maijalle
+    käyttäjä ja laita esimerkkiohjelma näkymään osoitteessa http://localhost/~maija/ . Esimerkkiohjelman tulee tulostaa
+    näytölle muutamia tietueita asiakastietokannasta, niiden joukossa asiakkaamme Oogle ja Zonama.
+  </p>
+
+  <h4>Apachen asennus</h4>
+  <p>Asensin apachen komennolla <code>sudo apt-get -y install apache2</code></p>
+  <img src="../img/h7/Screenshot1.png" alt="">
+  <p>Vaihdoin oletussivun komennolla: <code>echo "foo"|sudo tee /var/www/html/index.html</code></p>
+  <img src="../img/h7/Screenshot2.png" alt="">
+
+  <h4>Mariadb:n asennus</h4>
+  <p>Laitoin tulimuurin päälle komennolla <code>sudo ufw enable</code></p>
+  <p>Asensin mariadb-serverin komennolla <code>sudo apt-get -y install mariadb-server mariadb-client</code></p>
+  <p>Tarkistin, oliko mariadb päällä komennolla <code>sudo systemctl status mariadb</code></p>
+  <img src="../img/h7/Screenshot3.png" alt="">
+
+  <h4>PHP:n asennus</h4>
+  <p>Asensin PHP:n komennolla <code>sudo apt-get -y install php</code> ja Apachen PHP-moduulin komennolla
+    <code>sudo apt-get -y install libapache2-mod-php</code>.</p>
+
+
+  <h4>Käyttäjän kotihakemistot</h4>
+  <p> Otin käyttäjän kotihakemistot apachen asetuksissa käyttöön komennolla <code>sudo a2enmod userdir</code>.</p>
+  <p>Tarkistin konfiguraation komennolla <code>sudo apache2ctl configtest</code>. Sain tulokseksi Syntax OK.</p>
+  <p>Käynnistin apachen uudelleen: <code>sudo systemctl restart apache2</code></p>
+  <p>Loin käyttäjälle kotisivun komennolla <code>echo "Kayttajan kotisivu" > public_html/index.html</code></p>
+  <img src="../img/h7/Screenshot4.png" alt="">
+
+  <h4>PHP käyttäjän kotihakemistoihin</h4>
+  <p>PHP on oletuksena pois päältä käyttäjien kotihakemistoissa. Menin apachen asetuskansioihin komennolla
+    <code>cd /etc/apache2/mods-available</code>.</p>
+  <p>Ajoin komennon <code>sudoedit php7.2.conf</code>.</p>
+  <p><b>Kommentoin pois</b> tiedoston lopussa olevan seuraavanlaisen IfModulen:</p>
+  <pre>&lt;IfModule mod_userdir.c&gt;
+  &lt;Directory /home/*/public_html&gt;
+      php_admin_flag engine Off
+  &lt;/Directory&gt;
+&lt;/IfModule&gt;</pre>
+  <p>Menin takaisin kotihakemistoon komennolla <code>cd</code></p>
+  <p>Testatakseni php:tä ajoin komennon <code>echo "&lt;?php phpinfo(); ?&gt;"|sudo tee public_html/index.html</code>
+  </p>
+  <p>Nimesin tiedoston uudelleen: <code>mv public_html/index.html public_html/index.php</code></p>
+  <p>Käynnistin apachen uudelleen:<code>sudo systemctl restart apache2</code>. Nyt PHP toimii kotihakemistoissa.</p>
+  <img src="../img/h7/Screenshot6.png" alt="">
+
+  <h4>Maijan käyttäjä</h4>
+  <p>Ajoin komennon <code>sudo adduser maija</code> luodakseni "Maijalle" käyttäjän</p>
+  <p>Lisäsin itseni uuden käyttäjän ryhmään komennolla <code>sudo adduser xubuntu maija</code> voidakseni muokata maijan
+    kotihakemistoja.</p>
+  <p>Tarkistin että ryhmän lisäys onnistui kirjautumalla uudestaan: <code>sudo su - xubuntu</code></p>
+  <img src="../img/h7/Screenshot5.png" alt="">
+
+  <h4>Maijan kotisivut</h4>
+  <p>Kirjauduin maijan käyttäjätilille komennolla <code>su - maija</code></p>
+  <p>Loin kotisivuille kansion komennolla <code>mkdir public_html</code></p>
+  <p>Vaihdoin hakemistoa komennolla <code>cd public_html/</code></p>
+  <p>Loin PHP-testisivun komennolla <code>echo "&lt;?php phpinfo(); ?&gt;">index.php</code></p>
+  <img src="../img/h7/Screenshot7.png" alt="">
+
+  <p>Vaihdoin käyttäjää takaisin xubuntuun komennolla <code>su-xubuntu</code></p>
+  <p>Jotta ei tarvitsisi pomppia edestakaisin ajoin komennon <code>sudo chmod g=rxws /home/maija/public_html/</code></p>
+
+  <h4>Tietokanta ja tietokantakäyttäjä</h4>
+  <h4>Tietokannan luominen</h4>
+  <p>Kirjauduin roottina mariadb:hen komennolla <code>sudo mariadb -u root</code></p>
+  <p>Seuraavassa kuva siitä miten loin tietokannan asiakkaista</p>
+  <img src="../img/h7/Screenshot8.png" alt="">
+  <h4>Tietokantakäyttäjän luominen</h4>
+  <p>Loin ohjelmaa varten tietokantakäyttäjän:
+    <code>GRANT ALL ON clients.* TO clients@localhost IDENTIFIED BY '[salasanatähän]';</code>. Poistuin komennolla
+    <code>exit</code></p>
+  <h4>Uudella käyttäjällä kirjautuminen</h4>
+  <p>Kirjauduin uudelleen sisään uudella käyttäjällä: <code>mariadb -u clients -p</code></p>
+
+  <h4>Tietokantataulun luominen ja asiakkaiden lisäys</h4>
+  <p>Valitsin luomani tietokannan komennolla <code>USE clients;</code></p>
+  <p>Loin relaation kantaan komennolla:
+    <code>CREATE TABLE clients (id INT AUTO_INCREMENT PRIMARY KEY, name VARCHAR(1024), address VARCHAR(1024), phone VARCHAR(1024));</code>
+  </p>
+
+  <img src="../img/h7/Screenshot9.png" alt="">
+
+  <h4>Tietueiden lisäys</h4>
+  <p>Loin muutaman tietueen tauluun:</p>
+  <ul>
+    <li>
+      <code>INSERT INTO clients(name, address, phone) VALUES ("Oogle", "1st Customer Ave 25", "(555) 555-1234");</code>
+    </li>
+    <li><code>INSERT INTO clients(name, address, phone) VALUES ("Zonama", "125th Street 52", "(555) 555-4321");</code>
+    </li>
+    <li><code>INSERT INTO clients(name, address, phone) VALUES ("Eppla", "Foo Ave 123", "(555) 555-3241");</code></li>
+  </ul>
+  <img src="../img/h7/Screenshot10.png" alt="">
+  <p>Poistuin komennolla <code>exit</code></p>
+  <h4>Tietueiden näyttäminen ohjelmassa</h4>
+  <p>Menin maijan kotihakemistoon komennolla <code>cd /home/maija/public_html/</code></p>
+  <p>Asensin PHP:n MySQL-moduulin komennolla <code>sudo apt-get -y install php7.2-mysql</code></p>
+  <p>Loin konfiguraatiotiedoston, jolla muodostin tietokantayhteyden: <code>nano config.php</code></p>
+  <img src="../img/h7/Screenshot11.png" alt="">
+  <p>Sitten ohjelman "käyttöliittymän" komennolla <code>nano index.php</code>. Käytin lähteenä <a target="_blank"
+      href="../html/h4.html#x">aiemman tehtävän</a> koodia</p>
+  <img src="../img/h7/Screenshot12.png" alt="">
+  <p>Käynnistin apachen uudestaan: <code>sudo systemctl restart apache2</code>. Nyt ohjelma hakee muutamia tietueita
+    tietokannasta ja tulostaa ne näytölle</p>
+  <img src="../img/h7/Screenshot13.png" alt="">
+
+  <h2 id="goodmorning">## Goodmorning.sh</h2>
+  <p>
+    Tee goodmorning.sh -skripti, joka toivottaa hyvää huomenta, kertoo koneen IP-osoitteen ja päivämäärän. Voit näyttää
+    myös muita tietoja, max 5 riviä. Laita skripti niin, että se toimii kaikilla käyttäjillä kaikista hakemistoista.
+  </p>
+
+  <p>Loin seuraavanlaisen scriptin: <code>nano goodmorning.sh</code></p>
+  <img src="../img/h7/Screenshot14.png" alt="">
+  <p>Testasin komentoa:</p>
+  <img src="../img/h7/Screenshot15.png" alt="">
+
+  <p>Poistin tiedostolta .sh-päätteen komennolla <code>mv goodmorning.sh goodmorning</code></p>
+  <p>Lisäsin kaikille käyttäjille suoritusoikeudet komennolla <code>chmod a+x goodmorning</code></p>
+  <p>Kopioin scriptin mistä vaan käytettäväksi: <code>sudo cp goodmorning /usr/local/bin/</code></p>
+  <p>Testasin komentoa toisesta hakemistosta</p>
+  <img src="../img/h7/Screenshot16.png" alt="">
+  <p>Ja toisella käyttäjällä:</p>
+  <img src="../img/h7/Screenshot17.png" alt="">
+
+  <h2 id="kayttajat">##Käyttäjät</h2>
+  <p>
+    Työntekijämme ovat toimitusjohtaja Nakke Nertola, Håkan Värs, Einari Mikkonen, Einari Öljysaari, Maija Maijala ja
+    Eija
+    Vähäkäähkä. Tee kaikille käyttäjille esimerkkikotisivut. Kirjoita käyttäjien nimet, käyttäjätunnukset ja salasanat
+    tiedostoon password.txt kotihakemistossasi. Aseta tiedostolle
+    turvalliset oikeudet.
+  </p>
+
+  <p>Luodakseni helposti paljon salasanoja asensin pwgenin komennolla <code>sudo apt-get -y install pwgen</code></p>
+  <p>Loin salasanat <code>pwgen</code>illä ja käyttäjät komennolla <code>sudo adduser</code></p>
+  <p>Käyttäjänimet ja salasanat kirjoitin kotihakemiston tiedostoon password.txt:</p>
+  <img src="../img/h7/Screenshot19.png" alt="">
+  <p>Muutin tiedoston oikeuksia niin, että vain minä ja oma käyttäjäryhmäni voivat lukea tai muokata tiedostoa:
+    <code>chmod o-r password.txt</code></p>
+  <h4>Kotisivujen luominen käyttäjille</h4>
+  <p>Kirjauduin jokaiselle käyttäjälle erikseen komennolla su - [käyttäjänimi] ja annoin salasanan.</p>
+  <p>Kirjauduttuani ajoin komennon: <code>mkdir public_html && echo "$(whoami)n kotisivut">public_html/index.html</code>
+  </p>
+  <p>Nyt kaikilla käyttäjillä on kotisivut:</p>
+  <img src="../img/h7/Screenshot18.png" alt="">
+  <p>Kokeilen kirjautua naken tilille ja mennä kopioimaan kaikkien salasanat tuhriakseni muiden kotisivut:</p>
+  <img src="../img/h7/Screenshot20.png" alt="">
+  <p>Ei onnistunut :(</p>
+
+  <h2 id="helloworld">## Hei Python</h2>
+  <h3>Laita maijan kotihakemistoon Pythonin “Hei maailma” skripti. Skriptin tulee olla osoitteessa /home/maija/hei.py.
+  </h3>
+  <p>Asensin Python-flaskin komennolla <code>sudo apt-get -y install python3-flask</code></p>
+  <p>Loin skriptin komennolla: <code>sudo nano /home/maija/hei.py</code></p>
+  <pre>
+<font color="#4CCCE6"><b>from</b></font> flask <font color="#4CCCE6"><b>import</b></font> Flask
+app = Flask(__name__)
+
+@app.route(<font color="#4CE64C"><b>&quot;/&quot;</b></font>)
+<font color="#4CCCE6"><b>def</b></font><font color="#295FCC"><b> hello</b></font>():
+        <font color="#4CCCE6"><b>return</b></font> <font color="#4CE64C"><b>&quot;Hei Maailma!&quot;</b></font>
+
+app.run(debug=<font color="#CC58CC"><b>True</b></font>)
+</pre>
+  <p>Käynnistin sen: <code>python3 /home/maija/hei.py</code></p>
+  <img src="../img/h7/Screenshot21.png" alt="">
+
+  <h2 id="nbvh">## Nimipohjainen virtuaalipalvelu</h2>
+  <h4>Laita maijan public_html -kansio näkymään osoitteessa notkeahaku.com. Voit simuloida nimipalvelun toimintaa
+    hosts-tiedoston avulla.</h4>
+
+  <p>Loin virtualhostille asetustiedoston komennolla
+    <code>sudoedit /etc/apache2/sites-available/notkeahaku.com.conf</code></p>
+
+  <h4>Virtual name based host</h4>
+  <pre>&lt;VirtualHost *:80&gt;
+        ServerName notkeahaku.com
+        ServerAlias www.notkeahaku.com
+
+        DocumentRoot &quot;/home/maija/public_html/&quot;
+
+        &lt;Directory &quot;/home/maija/public_html/&quot;&gt;
+                require all granted
+        &lt;/Directory&gt;
+&lt;/VirtualHost&gt;
+</pre>
+  <p>Otin uuden sivun käyttöön komennolla <code>sudo a2ensite notkeahaku.com.conf</code>.</p>
+  <p>Poistin vanhan käytöstä komennolla <code>sudo a2dissite 000-default.conf</code>.</p>
+  <h4>DNS:n simulointi hosts-tiedoston avulla</h4>
+  <p>Ajoin komennon <code>sudoedit /etc/hosts</code>, ja lisäsin sinne seuraavat rivit:</p>
+  <ul>
+    <li><code>127.0.0.1 notkeahaku.com</code></li>
+    <li><code>127.0.0.1 www.notkeahaku.com</code></li>
+  </ul>
+  <p>Testasin apachen konfiguraatiota komennolla <code>apache2ctl configtest</code>. Sain tuloksen:
+    <code>Syntax OK</code>.</p>
+  <p>Käynnistin apachen uudelleen: <code>sudo systemctl restart apache2</code></p>
+  <img src="../img/h7/Screenshot22.png" alt="">
+
+  <h2 id="lahteet">Lähteet</h2>
+  <div class="sources">
+    <a target="_blank"
+      href="http://terokarvinen.com/2019/arvioitava-laboratorioharjoitus-linux-palvelimet-ict4tn021-3004-ti-alkukevat-2019-5-op">http://terokarvinen.com/2019/arvioitava-laboratorioharjoitus-linux-palvelimet-ict4tn021-3004-ti-alkukevat-2019-5-op</a>
+    <a target="_blank"
+      href="http://terokarvinen.com/2018/install-mariadb-on-ubuntu-18-04-database-management-system-the-new-mysql"></a>
+    <a href="http://terokarvinen.com/2007/shell-scripting-4#see_also"
+      target="_blank">http://terokarvinen.com/2007/shell-scripting-4#see_also</a>
+    <a href="https://stackoverflow.com/questions/13322485/how-to-get-the-primary-ip-address-of-the-local-machine-on-linux-and-os-x"
+      target="_blank">https://stackoverflow.com/questions/13322485/how-to-get-the-primary-ip-address-of-the-local-machine-on-linux-and-os-x</a>
+    <a target="_blank" href="https://github.com/osholopa/todoapp">https://github.com/osholopa/todoapp</a>
+  </div>
+  <button onclick="topFunction()" id="myBtn" title="Go to top">Takaisin ylös</button>
+  <script src="../js/main.js"></script>
+</body>
+
 </html>
