@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="fi" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../css/styles.css">
+    <title>Harjoitus 7</title>
+</head>
+
+<body>
+    <nav class="main-navigation">
+        <h1>Linux-palvelimet</h1>
+        <p>Haaga-Helia ICT4TN021-3010, Opettaja Tero Karvinen</p>
+        <a target="_blank"
+            href="http://terokarvinen.com/2020/linux-palvelimet-2020-alkukevat-kurssi-ict4tn021-3010/#alustavat-tehtavanannot">
+            Kurssin tehtävänannot
+        </a>
+        <p>Oskari Holopainen</p>
+        <a href="../../index.html"><img class="tux" src="../img/tux.png" alt="tux.png"></a>
+        <br>
+        <a href="../../index.html">Etusivu</a>
+    </nav>
+    <h1>Harjoitus 8</h1>
+
+    <h2>a) Kuormitusta yli ajan</h2>
+    <h4>19.03.2020 Klo 08:10 Xubuntu amd64 Lenovo Legion Y520</h4>
+    <p>Aloitin ottamalla ssh-yhteyden aiemmin kurssin aikana pystyttämälleni palvelimelle.</p>
+
+    <p>Asensin muninin komennolla <code>sudo apt-get -y install munin</code>.</p>
+
+    <p>Tämän jälkeen asensin sysstatin: <code>sudo apt-get -y install sysstat</code>.</p>
+
+    <p>
+        Ajoin komennon <code>sar -u -o sarfile 60 5</code>. Tämän komennon olisi tarkoitus kerätä 5 raportin mittaisia
+        kuormitustietoja 60 sekunnin välein tiedostoon <span style="font-style: italic;">sarfile</span>.
+    </p>
+
+    <h2>b) Kuormita järjestelmän eri osa-alueita. Esim. 'stress'.</h2>
+    <h4>sar ja stress</h4>
+    <p>Asensin stress:in komennolla <code>sudo apt install stress</code>.</p>
+
+    <p>
+        Manuaalissa oli esimerkkikomento. Päätin lähteä sillä liikenteeseen:
+        <code>stress --cpu 8 --io 4 --vm 2 --vm-bytes 128M --timeout 10s</code>
+    </p>
+
+    <p>
+        Nyt kun <code>sar</code> kerää kuormitustietoja minuutin välein päätin kuormittaa järjestelmää
+        stress-komennolla hetken. Tarkoituksenani kuormittaa järjestelmää 2 minuutin ajan ajoin komennon
+        <code>stress --cpu 8 --io 4 --vm 2 --vm-bytes 128M --timeout 120s</code>. Sar:in keräämiin tietoihin ilmestyi
+        kuormituspiikki. Analysoidaan hieman antamaani stress-komentoa.
+    </p>
+    <ul>
+        <li>
+            <p>
+                <code>--cpu 8</code> -luo 8 prosessia
+                joista jokainen käy läpi tiivistä silmukkaa joka laskee satunnaisesti arvotun luvun neliöjuurta.
+            </p>
+        </li>
+        <li>
+            <p>
+                <code>--io 4</code> -luo 4 prosessia joista jokainen pyörii silmukkaa kutsuen sync()-metodia joka
+                tyhjentää
+                muistipuskureita levylle
+            </p>
+        </li>
+        <li>
+            <p>
+                <code>--vm 2</code> luo kaksi prosessia joista jokainen kutsuu malloc()-metodia. malloc():ia käytetään
+                muistin
+                jakamiseen.
+            </p>
+        </li>
+        <li>
+            <p><code>--vm-bytes 128M</code> jakaa kummallekin edellämainitulle prosessille 128 megatavun kokoisen
+                blokin.</p>
+        </li>
+        <li>
+            <p><code>--timeout 120s</code> - kuormitustestin kesto.</p>
+        </li>
+    </ul>
+
+    <p>Nämä kaikki edellämainitut aiheuttaa kuormitusta järjestelmän eri osa-alueille.</p>
+
+    <p>Ajoin komennon <code>stress --cpu 8 --io 4 --vm 2 --vm-bytes 128M --timeout 60s</code>.</p>
+
+    <p>Katsoin järjestelmän prosesseja toisesta ikkunasta komennolla <code>htop</code>.</p>
+
+    <img src="../img/h8/htop.png" alt="">
+
+    <p>
+        Kuten kuvasta näkyy, testin aikana ilmestyi 14 uutta prosessia joista jokainen kuormitti
+        järjestelmää oman osansa.
+    </p>
+
+    <p>Aiheuttaakseni sar-tiedostoon piikkejä ajoin vielä saman komennon: <code>stress --cpu 8 --io 4 --vm 2 --vm-bytes 128M --timeout 60s</code></p>
+
+    <h4>munin</h4>
+    <p>
+        Apachessa oli pyörimässä vielä vanha kurssin tehtävä. Otin tämän pois päältä komennolla
+        <code>sudo a2dissite oskariwsgi.conf</code>
+        Otin defaultsivun päälle komennolla <code>sudo a2ensite 000-default.conf</code>
+    </p>
+
+    <p>
+        Tein configtestin: <code>sudo apache2ctl configtest</code> ja sain tulokseksi <code>Syntax OK</code>
+        Käynnistin apachen uudestaan: <code>sudo systemctl restart apache2</code>
+    </p>
+
+    <p>
+        Käynnistin munin-noden uudestaan komennolla <code>sudo systemctl restart munin-node</code>
+
+    </p>
+    <p>
+        Kokeilin osoitetta osholopa.me/munin
+        Sain tulokseksi <b>403: Permission Denied</b>
+
+    </p>
+    <p>
+        Apachen error.log valitti hakemistosta <code>/var/cache/munin/www/</code>.
+    </p>
+    <p>Muokkasin apachen default-sivun conf-tiedostoa ja lisäsin seuraavan directory-säkeistön.</p>
+
+    <pre>
+    &lt;Directory /var/cache/munin/www/&gt;
+        require all granted
+    &lt;/Directory&gt;
+    </pre>
+
+
+    <p>Käynnistin palvelimen uudestaan komennolla <code>sudo systemctl restart apache2</code>. Katsoin osoitetta
+        <b>osholopa.me/munin/</b> ja sain tulokseksi seuraavan sivun:</p>
+
+    <img src="../img/h8/munin.png" alt="">
+
+    <p>Graafiset esitykset sai esille valitsemalla <b>localhost.localdomain</b></p>
+
+    <p>Tässä esimerkiksi threadien määrästä luotu graafinen kuvaus. Kuvan käyrässä näkyy pieni piikki. Tämä oli yksi
+        testeistä.</p>
+
+    <img src="../img/h8/munin-graph.png" alt="">
+
+    <p>Muistin käytön kaaviosta näkyy stressitestin aiheuttama piikki päivänäkymässä:</p>
+    <img src="../img/h8/munin-memory.png" alt="">
+
+    <p>Prosessorin kuormitustiedoissa näkyy stressitestin aiheuttama piikki.</p>
+    <img src="../img/h8/cpu.png" alt="">
+
+    <p>En kuitenkaan mene tähän sen syvemmin, koska tiedot näkyvät vain päivän tarkkuudella tässä konfiguraatiossa.</p>
+
+    <h4>iotop</h4>
+    <p>
+        Iotop näyttää järjestelmän levyliikenteen tietoja. Se on hyödyllinen selvittämään, mitkä prosessit käyttävät
+        runsasta levyliikennettä, tai heittovaihtavat muistia. Virtuaalimuistin yleistyttyä enää heittovaihtoa ei
+        juurikaan käytetä, muuten kuin äärimmäisissä kuormitustilanteissa.
+        Asensin iotopin komennolla <code>sudo apt-get -y install iotop</code>.
+        Ajoin komennon <code>sudo iotop -oa</code>
+        Toisessa tabissa ajoin:
+        <code> stress --cpu 8 --io 4 --vm 2 --vm-bytes 128M --timeout 60s</code>
+    </p>
+    <p><b>iotopiin</b> tuli näkyviin stressitestin 4 io-prosessia:</p>
+    <img src="../img/h8/iotop.png" alt="">
+
+    <h4>dstat</h4>
+
+    <p>Asensin dstatin komennolla <code>sudo apt-get -y install dstat</code>.</p>
+    <p>Käynnistin dstatin komennolla <code>dstat</code>.</p>
+    <p>Ajoin stressitestin komennolla:</p>
+    <p><code>stress --cpu 8 --io 4 --vm 2 --vm-bytes 128M --timeout 60s</code>.</p>
+    <p>Otin kuvakaappaukset testin alussa ja lopussa.</p>
+
+    <img src="../img/h8/dstat.png" alt="">
+    <p>Sarakkeiden usr ja sys arvot pomppaavat, nämä ovat prosessorin statistiikoita, usr on cpu:n käyttö user-moden,  sys on
+        cpun käyttö kernel-moden osalta.</p>
+    <a target="_blank" href="https://en.wikipedia.org/wiki/User_space">Lisätietoa</a>
+    <p>
+        Testin aikana kolumni idl eli idle vaihtuu sadasta nollaksi. read, write, receive, send, in ja out- kolumneissa
+        ei tapahdu paljoakaan.
+        Prosessien int ja csw (interrupt ja context switch) - arvot pomppaavat testin aikana myös.
+    </p>
+    <img src="../img/h8/dstat2.png" alt="">
+    <p>Ylläolevasta kuvasta hahmottuu selkeästi, kun stressitesti loppuu.</p>
+
+    <h2>e) Verkkoliikenteen monitorointia ss:llä (socket statistics)</h2>
+    <h4>ajoin komennot <code>ss --listening --tcp --numeric</code> <code>ss --listening --tcp</code>
+        <code>ss --tcp</code>
+        <code>ss --listening --udp</code> ja <code>ss --listening
+        --udp</code>;</h4>
+    <img src="../img/h8/e.png" alt="">
+    <p>Nämä komennot näyttävät tietoja palvelimen verkkoliikenteestä. <code>--tcp</code>- asetus näyttää TCP
+        -pistokkeet, ja <code>--udp</code> vastaavasti udp-pistokkeet. <code>--listening</code>-asetus näytttää vain
+        pistokkeet, joita kuunnellaan. Tämä asetus ei ole oletuksena
+        päällä.
+        <code>--numeric</code> -asetuksella ss ei hae symbolisia tietoja. Kuvasta käykin ilmi, kuinka eri komennoilla
+        käy
+        ilmi, että portista
+        80 kuunnellaan HTTP-pyyntöjä ja portti 22:ta kuunnellaan ssh:ta varten.
+        <code>ESTAB</code> - tila kertoo muodostetusta yhteydestä. Kuvasta näkyy että koneelta on kolme samanaikaista
+        ssh-yhteyttä palvelimelle.</p>
+
+    <h2>g) load average</h2>
+    <p>
+        load average näkyy kolmena numerona, joista ensimmäinen on <span style="font-style: italic;">viimeisen yhden
+            minuutin ajalta</span>, toinen viimeisen
+        <span style="font-style: italic;">5 minuutin</span> ja kolmas <span style="font-style: italic;">15
+            minuutin</span> ajalta.
+        Siitä miten luku lasketaan löytyy tarkempaa tietoa <a target="_blank"
+            href="https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average">täältä</a>. Koska
+        järjestelmän kuormitus vaihtelee paljon prosessien vaihtelevan elinkaaren takia, on järkevämpää tarkastella
+        tietyn
+        ajanjakson aikana ollutta keskimääräistä kuormitusta. Stressitestin
+        aikana näkyy komennolla <code>top</code> saadussa näkymässä kuinka
+        järjestelmän
+        kuormituksen aikana <b>load average</b>- luvut kasvavat.
+    </p>
+    <p>Komennon <code>nproc</code> avulla saadun tuloksen perusteella koneessa on 1 prosessoriydin. Alla olevan kuvan
+        perusteella viimeisen minuutin aikana kyseisellä hetkellä prosessori on ollut 805% ylikuormittunut, jolloin 1
+        prosessia ajetaan ja 8 odottaa vuoroaan.</p>
+    <p>Prosessoriytimien määrä on oleellinen load-average lukuja tarkasteltessa, sillä perinteisesti yksi prosessoriydin
+        voi suorittaa vain yhtä prosessia kerrallaan. Ydinten määrä vaikuttaa siihen, ajetaanko prosesseja vain
+        näennäisesti rinnakkain vai moniprosessoidaanko niitä aidosti. Load average-luvut taas lasketaan absoluuttisten
+        prosessien
+        määrien ja kuluneen ajan perusteella, joten lukuja tulkittaessa täytyy olla tietoinen prosessoriydinten
+        määrästä, jotta osaa arvioida millaisesta kuormituksesta on kyse.</p>
+    <p></p>
+    <img src="../img/h8/top.png" alt="">
+    <p>Kuormituksen loppuessa luvut laskevat lähemmäs nollaa.</p>
+    <img src="../img/h8/top-nonstress.png" alt="">
+
+    <h2>h) Analysoi lopuksi koko ajalta keräämäsi kuormitustiedot. Löydätkö esimerkiksi aiheuttamasi kuormituspiikin?
+    </h2>
+    <p>Seuraavissa kuvissa tämän harjoituksen aikana tapahtuneiden kuormitusten piikkilukemia.</p>
+    <p><b><code>sar</code></b> kirjaa tietoihin <b>aikaleiman</b> (UTC), tarkasteltujen prosessoriytimien (<b>CPU</b>)
+        määrän all, <b>%user</b> kentän, joka on prosessorin käyttöaste prosentteina user modessa, eli muistialueella,
+        jossa useimmat sovellukset toimivat. <b>%nice</b> -arvo taas kertoo prosessien osuuden, jotka ovat suoritettu
+        positiivisella nice-arvolla (-20 korkea prioriteetti, 19 matala prioriteetti). <b>%system</b> on
+        prosenttilukema prosesseista jotka ovat suoritettu kernel-tasolla. <b>%iowait</b> on ajan osuus,
+        jolloin prosessit joutui odottamaan levyliikennettä. <b>%steal</b> on ajan osuus jolloin prosessi joutui odottamaan näennäisprosessoria,
+        kun hyperviisori suoritti jotakin muuta prosessia. <b>%idle</b> on prosentuaalinen aika, jolloin
+        prosessori oli vapaana. Alla olevassa kuvassa näkyy, kuinka idle kävi nollassa, kun kuormitus oli korkeimmillaan.</p>
+    <img src="../img/h8/sar1.png" alt="">
+
+    <p>toinen piikki</p>
+    <img src="../img/h8/sar2.png" alt="">
+
+    <p>kolmas piikki</p>
+    <img src="../img/h8/sar3.png" alt="">
+
+    <p> useampi piikki peräkkäin</p>
+    <img src="../img/h8/sar4.png" alt="">
+
+    <p>Lopussa koko ajalta laskettu keskiarvo</p>
+    <img src="../img/h8/average.png" alt="">
+
+
+
+    <h2 id="lahteet">Lähteet</h2>
+    <div class="sources">
+        <a target="_blank"
+            href="http://terokarvinen.com/oldsite/otherauthors/eliimatt-wordpress-org-puppet-liimatta-2013/eliimatt.wordpress.com/tag/munin/index.html">http://terokarvinen.com/oldsite/otherauthors/eliimatt-wordpress-org-puppet-liimatta-2013/eliimatt.wordpress.com/tag/munin/index.html</a>
+        <a target="_blank"
+            href="https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average">https://en.wikipedia.org/wiki/Moving_average#Exponential_moving_average</a>
+        <a target="_blank" href="https://www.linux.fi/wiki/Pistoke">https://www.linux.fi/wiki/Pistoke</a>
+        <a target="_blank"
+            href="https://blog.appsignal.com/2018/03/28/understanding-system-load-and-load-averages.html">https://blog.appsignal.com/2018/03/28/understanding-system-load-and-load-averages.html</a>
+        <a target="_blank" href="https://www.linux.fi/wiki/Iotop">https://www.linux.fi/wiki/Iotop</a>
+        <a target="_blank" href="https://fi.wikipedia.org/wiki/Sivutus">https://fi.wikipedia.org/wiki/Sivutus</a>
+        <a href="https://www.linux.fi/wiki/User_space">https://www.linux.fi/wiki/User_space</a>
+        <a href="https://www.computerhope.com/unix/usar.htm">https://www.computerhope.com/unix/usar.htm</a>
+    </div>
+    <button onclick="topFunction()" id="myBtn" title="Go to top">Takaisin ylös</button>
+    <script src="../js/main.js"></script>
+</body>
+
+</html>
